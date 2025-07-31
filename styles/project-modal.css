@@ -1,0 +1,20 @@
+
+.swiper-pagination-bullet-custom {
+  width: 8px;
+  height: 8px;
+  background: rgba(0, 240, 255, 0.3);
+  border-radius: 50%;
+  margin: 0 4px;
+  transition: all 0.3s ease;
+}
+
+.swiper-pagination-bullet-active-custom {
+  background: #00f0ff;
+  transform: scale(1.2);
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+}
+
+@keyframes grid-move {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(40px, 40px); }
+}
