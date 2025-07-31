@@ -11,6 +11,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@radix-ui/react-tooltip";
+import emailjs from '@emailjs/browser';
 
 export default function ContactSection() {
   const [formData, setFormData] = useState({
@@ -34,22 +35,27 @@ export default function ContactSection() {
     setErrorMessage("");
 
     try {
-      const res = await fetch("https://formspree.io/f/meozzavo", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+      // Configuración de EmailJS
+      const serviceId = 'service_djky23a'; // Service ID de Gmail
+      const templateId = 'template_85zvr85'; // Template ID para recibir mensajes
+      const publicKey = 'mtF5E2raG9PSGTJXm'; // Public Key de EmailJS
 
-      if (res.ok) {
-        setStatus("success");
-        setFormData({ name: "", email: "", message: "" });
-      } else {
-        const err = await res.json();
-        throw new Error(err.error || "Error al enviar");
-      }
+      const templateParams = {
+        name: formData.name,
+        email: formData.email,
+        message: formData.message,
+      };
+
+      await emailjs.send(serviceId, templateId, templateParams, publicKey);
+      
+      setStatus("success");
+      setFormData({ name: "", email: "", message: "" });
+      setTimeout(() => setStatus("idle"), 5000);
     } catch (err: any) {
+      console.error("Error enviando email:", err);
       setStatus("error");
-      setErrorMessage(err.message || "Algo falló");
+      setErrorMessage("Error al enviar el mensaje. Intenta de nuevo.");
+      setTimeout(() => setStatus("idle"), 5000);
     }
   };
 

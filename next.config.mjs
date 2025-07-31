@@ -9,8 +9,8 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  // Permitir solicitudes de origen cruzado desde la IP específica
-  allowedDevOrigins: ['10.6.9.229'],
+  // Permitir solicitudes de origen cruzado desde IPs específicas
+  allowedDevOrigins: ['10.6.9.229', '192.168.1.6'],
   // Configuración para resolver problemas con pnpm y tsparticles
   transpilePackages: [
     '@tsparticles/engine',

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from 'react';
+import ChatBot from '@/components/chatbot';
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
   useEffect(() => {
@@ -26,5 +27,10 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
     };
   }, []);
 
-  return <>{children}</>;
+  return (
+    <>
+      {children}
+      <ChatBot />
+    </>
+  );
 }

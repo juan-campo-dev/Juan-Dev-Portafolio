@@ -75,7 +75,7 @@ const ProjectModal: React.FC<ProjectModalProps> = React.memo(({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-2 md:p-4">
       <div className="absolute inset-0 bg-black/20 backdrop-blur-sm" />
-      <div className="relative z-10 w-full max-w-7xl max-h-[95vh] overflow-y-auto">
+      <div className="relative z-10 w-full max-w-7xl max-h-[95vh] overflow-y-auto rounded-2xl">
         <div className="absolute inset-0 bg-gradient-to-r from-[#00f0ff] via-[#0080ff] to-[#00f0ff] rounded-2xl p-[1px] animate-pulse-glow">
           <div className="w-full h-full bg-black/90 backdrop-blur-xl rounded-2xl" />
         </div>
