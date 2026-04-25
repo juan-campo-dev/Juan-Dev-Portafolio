@@ -11,7 +11,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@radix-ui/react-tooltip";
-import emailjs from '@emailjs/browser';
+import emailjs from "@emailjs/browser";
 
 export default function ContactSection() {
   const [formData, setFormData] = useState({
@@ -20,11 +20,13 @@ export default function ContactSection() {
     message: "",
   });
 
-  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [status, setStatus] = useState<
+    "idle" | "sending" | "success" | "error"
+  >("idle");
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
@@ -36,9 +38,9 @@ export default function ContactSection() {
 
     try {
       // Configuración de EmailJS
-      const serviceId = 'service_djky23a'; // Service ID de Gmail
-      const templateId = 'template_85zvr85'; // Template ID para recibir mensajes
-      const publicKey = 'mtF5E2raG9PSGTJXm'; // Public Key de EmailJS
+      const serviceId = "service_djky23a"; // Service ID de Gmail
+      const templateId = "template_85zvr85"; // Template ID para recibir mensajes
+      const publicKey = "mtF5E2raG9PSGTJXm"; // Public Key de EmailJS
 
       const templateParams = {
         name: formData.name,
@@ -47,7 +49,7 @@ export default function ContactSection() {
       };
 
       await emailjs.send(serviceId, templateId, templateParams, publicKey);
-      
+
       setStatus("success");
       setFormData({ name: "", email: "", message: "" });
       setTimeout(() => setStatus("idle"), 5000);
@@ -60,7 +62,10 @@ export default function ContactSection() {
   };
 
   return (
-    <section id="contact" className="py-20 bg-radial-gradient-section text-white">
+    <section
+      id="contact"
+      className="py-20 bg-radial-gradient-section text-white"
+    >
       <TooltipProvider delayDuration={100}>
         <div className="container mx-auto px-4">
           <SectionHeading
@@ -71,8 +76,8 @@ export default function ContactSection() {
             <div className="space-y-8 animate-fade-in-up">
               <p className="text-lg text-gray-300 tracking-normal">
                 ¿Tienes un proyecto en mente, una pregunta o simplemente quieres
-                saludar? ¡No dudes en contactarme! Siempre estoy abierto a nuevas
-                oportunidades y colaboraciones.
+                saludar? ¡No dudes en contactarme! Siempre estoy abierto a
+                nuevas oportunidades y colaboraciones.
               </p>
               <div className="space-y-4">
                 {/* Email */}
@@ -81,7 +86,10 @@ export default function ContactSection() {
                     <TooltipTrigger asChild>
                       <Mail className="h-6 w-6 text-neon-blue cursor-pointer" />
                     </TooltipTrigger>
-                    <TooltipContent side="right" className="bg-white text-black rounded px-2 py-1 text-xs shadow-lg">
+                    <TooltipContent
+                      side="right"
+                      className="bg-white text-black rounded px-2 py-1 text-xs shadow-lg"
+                    >
                       Correo electrónico
                     </TooltipContent>
                   </Tooltip>
@@ -99,17 +107,20 @@ export default function ContactSection() {
                     <TooltipTrigger asChild>
                       <Github className="h-6 w-6 text-neon-blue cursor-pointer" />
                     </TooltipTrigger>
-                    <TooltipContent side="right" className="bg-white text-black rounded px-2 py-1 text-xs shadow-lg">
+                    <TooltipContent
+                      side="right"
+                      className="bg-white text-black rounded px-2 py-1 text-xs shadow-lg"
+                    >
                       GitHub
                     </TooltipContent>
                   </Tooltip>
                   <a
-                    href="https://github.com/Juan-Campo-developer"
+                    href="https://github.com/juan-campo-dev"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-lg text-white hover:text-neon-blue transition-colors tracking-normal"
                   >
-                    github.com/Juan-Campo-developer
+                    github.com/juan-campo-dev
                   </a>
                 </div>
 
@@ -119,7 +130,10 @@ export default function ContactSection() {
                     <TooltipTrigger asChild>
                       <Linkedin className="h-6 w-6 text-neon-blue cursor-pointer" />
                     </TooltipTrigger>
-                    <TooltipContent side="right" className="bg-white text-black rounded px-2 py-1 text-xs shadow-lg">
+                    <TooltipContent
+                      side="right"
+                      className="bg-white text-black rounded px-2 py-1 text-xs shadow-lg"
+                    >
                       LinkedIn
                     </TooltipContent>
                   </Tooltip>
@@ -139,7 +153,10 @@ export default function ContactSection() {
                     <TooltipTrigger asChild>
                       <MessageCircle className="h-6 w-6 text-neon-blue cursor-pointer" />
                     </TooltipTrigger>
-                    <TooltipContent side="right" className="bg-white text-black rounded px-2 py-1 text-xs shadow-lg">
+                    <TooltipContent
+                      side="right"
+                      className="bg-white text-black rounded px-2 py-1 text-xs shadow-lg"
+                    >
                       WhatsApp
                     </TooltipContent>
                   </Tooltip>
@@ -162,7 +179,10 @@ export default function ContactSection() {
               style={{ animationDelay: "0.2s" }}
             >
               <div>
-                <Label htmlFor="name" className="block text-lg font-medium text-white mb-2 tracking-normal">
+                <Label
+                  htmlFor="name"
+                  className="block text-lg font-medium text-white mb-2 tracking-normal"
+                >
                   Nombre
                 </Label>
                 <Input
@@ -177,7 +197,10 @@ export default function ContactSection() {
                 />
               </div>
               <div>
-                <Label htmlFor="email" className="block text-lg font-medium text-white mb-2 tracking-normal">
+                <Label
+                  htmlFor="email"
+                  className="block text-lg font-medium text-white mb-2 tracking-normal"
+                >
                   Correo Electrónico
                 </Label>
                 <Input
@@ -192,7 +215,10 @@ export default function ContactSection() {
                 />
               </div>
               <div>
-                <Label htmlFor="message" className="block text-lg font-medium text-white mb-2 tracking-normal">
+                <Label
+                  htmlFor="message"
+                  className="block text-lg font-medium text-white mb-2 tracking-normal"
+                >
                   Mensaje
                 </Label>
                 <Textarea
@@ -215,10 +241,14 @@ export default function ContactSection() {
               </Button>
 
               {status === "success" && (
-                <p className="text-green-400 font-semibold text-center">¡Mensaje enviado con éxito!</p>
+                <p className="text-green-400 font-semibold text-center">
+                  ¡Mensaje enviado con éxito!
+                </p>
               )}
               {status === "error" && (
-                <p className="text-destructive-foreground font-semibold text-center">Error: {errorMessage}</p>
+                <p className="text-destructive-foreground font-semibold text-center">
+                  Error: {errorMessage}
+                </p>
               )}
             </form>
           </div>

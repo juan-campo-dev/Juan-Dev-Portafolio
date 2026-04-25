@@ -328,11 +328,11 @@ export default function AdminPage() {
 
   if (!token || !user) {
     return (
-      <main className="min-h-screen bg-black/95 px-4 py-16 text-white">
+      <main className="min-h-screen bg-[#0a0a0a] px-4 py-16 text-white">
         <div className="mx-auto flex min-h-[calc(100vh-8rem)] max-w-md items-center">
-          <Card className="w-full overflow-hidden rounded-lg border border-gray-700 bg-cyber-gray text-white shadow-lg shadow-black/40">
+          <Card className="w-full overflow-hidden rounded-lg border border-gray-700 bg-[#111111] text-white shadow-lg shadow-black/40">
             <CardHeader>
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full border border-[#00f0ff]/30 bg-black/45 text-neon-blue shadow-[0_0_18px_rgba(0,240,255,0.18)]">
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full border border-[#00f0ff]/30 bg-[#1a1a1a] text-neon-blue shadow-[0_0_18px_rgba(0,240,255,0.18)]">
                 <Lock className="h-5 w-5" />
               </div>
               <CardTitle className="text-2xl tracking-normal">
@@ -350,7 +350,7 @@ export default function AdminPage() {
                     id="email"
                     value={email}
                     onChange={(event) => setEmail(event.target.value)}
-                    className="border-gray-700 bg-black/60 text-white focus-visible:ring-neon-blue"
+                    className="border-gray-700 bg-[#151515] text-white focus-visible:ring-neon-blue"
                   />
                 </div>
                 <div className="space-y-2">
@@ -360,7 +360,7 @@ export default function AdminPage() {
                     type="password"
                     value={password}
                     onChange={(event) => setPassword(event.target.value)}
-                    className="border-gray-700 bg-black/60 text-white focus-visible:ring-neon-blue"
+                    className="border-gray-700 bg-[#151515] text-white focus-visible:ring-neon-blue"
                   />
                 </div>
                 {loginError && (
@@ -383,9 +383,9 @@ export default function AdminPage() {
   }
 
   return (
-    <main className="min-h-screen bg-black/95 px-4 py-8 text-white">
+    <main className="min-h-screen bg-[#0a0a0a] px-4 py-8 text-white">
       <div className="mx-auto max-w-7xl space-y-8">
-        <header className="flex flex-col gap-4 rounded-2xl border border-[#00f0ff]/20 bg-black/70 p-5 shadow-2xl shadow-[#00f0ff]/10 backdrop-blur-xl md:flex-row md:items-center md:justify-between">
+        <header className="flex flex-col gap-4 rounded-2xl border border-[#00f0ff]/20 bg-[#111111] p-5 shadow-2xl shadow-[#00f0ff]/10 md:flex-row md:items-center md:justify-between">
           <div>
             <p className="text-sm text-neon-blue">Panel privado</p>
             <h1 className="text-3xl font-bold tracking-normal">
@@ -427,7 +427,7 @@ export default function AdminPage() {
           <MetricCard label="Publicados" value={projectStats.published} />
         </section>
 
-        <Card className="border-[#00f0ff]/20 bg-black/70 text-white backdrop-blur-xl">
+        <Card className="border-[#00f0ff]/20 bg-[#111111] text-white ">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 tracking-normal">
               <BarChart3 className="h-5 w-5 text-neon-blue" /> Proyectos más
@@ -439,7 +439,7 @@ export default function AdminPage() {
               metrics?.top_projects.map((project) => (
                 <div
                   key={project.slug}
-                  className="rounded-xl border border-[#00f0ff]/15 bg-black/50 p-3"
+                  className="rounded-xl border border-[#00f0ff]/15 bg-[#1a1a1a] p-3"
                 >
                   <p className="truncate text-sm font-semibold">
                     {project.title}
@@ -458,7 +458,7 @@ export default function AdminPage() {
         </Card>
 
         <Tabs defaultValue="projects" className="space-y-6">
-          <TabsList className="border border-[#00f0ff]/20 bg-black/70">
+          <TabsList className="border border-[#00f0ff]/20 bg-[#111111]">
             <TabsTrigger value="projects">Proyectos</TabsTrigger>
             <TabsTrigger value="certificates">Certificados</TabsTrigger>
           </TabsList>
@@ -562,7 +562,7 @@ export default function AdminPage() {
 
 function MetricCard({ label, value }: { label: string; value: number }) {
   return (
-    <div className="rounded-2xl border border-[#00f0ff]/20 bg-black/70 p-4 shadow-lg shadow-[#00f0ff]/5">
+    <div className="rounded-2xl border border-[#00f0ff]/20 bg-[#111111] p-4 shadow-lg shadow-[#00f0ff]/5">
       <p className="text-sm text-gray-400">{label}</p>
       <p className="mt-2 text-3xl font-bold text-neon-blue">{value}</p>
     </div>
@@ -579,7 +579,7 @@ function ContentList<T>({
   renderItem: (item: T) => React.ReactNode;
 }) {
   return (
-    <Card className="border-[#00f0ff]/20 bg-black/70 text-white backdrop-blur-xl">
+    <Card className="border-[#00f0ff]/20 bg-[#111111] text-white ">
       <CardHeader>
         <CardTitle className="tracking-normal">{title}</CardTitle>
       </CardHeader>
@@ -602,7 +602,7 @@ function ContentRow({
   const isPublished = status === "published";
 
   return (
-    <div className="flex items-center justify-between gap-3 rounded-xl border border-[#00f0ff]/15 bg-black/45 p-3">
+    <div className="flex items-center justify-between gap-3 rounded-xl border border-[#00f0ff]/15 bg-[#1c1c1c] p-3">
       <div className="min-w-0">
         <p className="truncate font-semibold tracking-normal">{title}</p>
         <p className="truncate text-xs text-gray-400">{subtitle}</p>
@@ -643,7 +643,7 @@ function ProjectFormCard({
   onSubmit: (event: FormEvent) => void;
 }) {
   return (
-    <Card className="border-[#00f0ff]/20 bg-black/70 text-white backdrop-blur-xl">
+    <Card className="border-[#00f0ff]/20 bg-[#111111] text-white ">
       <CardHeader>
         <CardTitle className="flex items-center gap-2 tracking-normal">
           <Plus className="h-5 w-5 text-neon-blue" />{" "}
@@ -769,7 +769,7 @@ function CertificateFormCard({
   onSubmit: (event: FormEvent) => void;
 }) {
   return (
-    <Card className="border-[#00f0ff]/20 bg-black/70 text-white backdrop-blur-xl">
+    <Card className="border-[#00f0ff]/20 bg-[#111111] text-white ">
       <CardHeader>
         <CardTitle className="flex items-center gap-2 tracking-normal">
           <CheckCircle2 className="h-5 w-5 text-neon-blue" />{" "}
@@ -847,7 +847,7 @@ function TextField({
       <Input
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="border-[#00f0ff]/20 bg-black/60"
+        className="border-[#00f0ff]/20 bg-[#151515]"
       />
     </div>
   );
@@ -868,7 +868,7 @@ function TextareaField({
       <Textarea
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="min-h-28 border-[#00f0ff]/20 bg-black/60"
+        className="min-h-28 border-[#00f0ff]/20 bg-[#151515]"
       />
     </div>
   );
@@ -885,7 +885,7 @@ function FileField({ onChange }: { onChange: (file: File | null) => void }) {
         type="file"
         accept="image/*"
         onChange={(event) => onChange(event.target.files?.[0] ?? null)}
-        className="border-[#00f0ff]/20 bg-black/60"
+        className="border-[#00f0ff]/20 bg-[#151515]"
       />
     </div>
   );
@@ -901,7 +901,7 @@ function Toggle({
   onChange: (checked: boolean) => void;
 }) {
   return (
-    <label className="flex items-center justify-between rounded-xl border border-[#00f0ff]/15 bg-black/45 px-3 py-2">
+    <label className="flex items-center justify-between rounded-xl border border-[#00f0ff]/15 bg-[#1c1c1c] px-3 py-2">
       <span>{label}</span>
       <input
         type="checkbox"

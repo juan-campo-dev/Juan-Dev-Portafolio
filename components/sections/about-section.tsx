@@ -17,34 +17,37 @@ import { Button } from "@/components/ui/button";
 
 export default function AboutSection() {
   const frontendSkills = [
-    { name: "HTML", percentage: 90, icon: <FileCode /> },
-    { name: "CSS", percentage: 90, icon: <Code /> },
-    { name: "JavaScript", percentage: 90, icon: <SquareTerminal /> },
-    { name: "Tailwind CSS", percentage: 70, icon: <Zap /> },
-    { name: "React.js", percentage: 70, icon: <Code /> },
+    { name: "React.js", percentage: 95, icon: <Code /> },
+    { name: "JavaScript", percentage: 95, icon: <SquareTerminal /> },
+    { name: "TypeScript", percentage: 85, icon: <Code /> },
+    { name: "HTML/CSS", percentage: 95, icon: <FileCode /> },
+    { name: "Tailwind CSS", percentage: 90, icon: <Zap /> },
+    { name: "Next.js", percentage: 85, icon: <Code /> },
   ];
 
   const backendSkills = [
-    { name: "PHP", percentage: 90, icon: <Server /> },
-    { name: "Python", percentage: 90, icon: <GitBranch /> },
-    { name: "Node.js", percentage: 70, icon: <Code /> },
+    { name: "PHP / Laravel", percentage: 95, icon: <Server /> },
+    { name: "Python / FastAPI / Flask", percentage: 90, icon: <GitBranch /> },
+    { name: "Node.js", percentage: 80, icon: <Code /> },
+    { name: "Java", percentage: 70, icon: <Server /> },
   ];
 
   const databaseSkills = [
-    { name: "MySQL", percentage: 90, icon: <Database /> },
-    { name: "Lucidchart", percentage: 70, icon: <Database /> },
+    { name: "MySQL", percentage: 95, icon: <Database /> },
+    { name: "PostgreSQL", percentage: 75, icon: <Database /> },
+    { name: "SQL Server", percentage: 70, icon: <Database /> },
   ];
 
   const designSkills = [
     { name: "Adobe Illustrator", percentage: 90, icon: <Palette /> },
-    { name: "Adobe XD", percentage: 60, icon: <Palette /> },
+    { name: "Figma / Adobe XD", percentage: 75, icon: <Palette /> },
   ];
 
   const aiGenerativeSkill = {
-    name: "IA Generativa",
-    percentage: 80,
+    name: "IA Generativa (Claude, Copilot, GPT)",
+    percentage: 90,
     icon: <Sparkles />,
-    note: "Experimentando con IA generativas",
+    note: "Uso avanzado de herramientas IA para acelerar desarrollo",
   };
 
   return (
@@ -81,23 +84,23 @@ export default function AboutSection() {
               className="text-lg leading-relaxed text-gray-300 tracking-normal animate-fade-in-up"
               style={{ animationDelay: "0.2s" }}
             >
-              ¡Hola! Soy Juan Campo, aprendiz del SENA en Tecnología en Análisis
-              y Desarrollo de Software. Actualmente estoy en mi etapa lectiva, a
-              un trimestre de iniciar la fase productiva, y con muchas ganas de
-              seguir creciendo como desarrollador.
+              ¡Hola! Soy Juan Andrés Campo Rodriguez, Desarrollador Full Stack
+              con +2.5 años de experiencia en React.js, Python, FastAPI, Flask,
+              PHP y Laravel. Top 3 Nacional WorldSkills 2025 en Tecnologías Web.
+              He creado +16 aplicaciones en producción incluyendo sistemas con
+              integración de IA, chatbots y análisis de datos.
             </p>
             <p
               className="text-lg leading-relaxed text-gray-300 tracking-normal animate-fade-in-up"
               style={{ animationDelay: "0.4s" }}
             >
-              Me apasiona crear soluciones digitales tanto en entornos web como
-              móviles, combinando diseño interactivo, buenas prácticas de
-              desarrollo y tecnologías modernas. Aunque me especializo en
-              desarrollo front-end, también exploro el backend y el uso de
-              herramientas como la inteligencia artificial para mejorar la
-              experiencia del usuario. Siempre busco escribir código limpio,
-              funcional y escalable, resolviendo problemas con creatividad y
-              enfoque práctico.
+              Actualmente lidero el desarrollo del SGI FERMAR en Montajes y
+              Construcciones Fermar S.A.S., un sistema de gestión integral con
+              PHP, JavaScript, MySQL y Python para IA y análisis de datos. Uso
+              avanzado de herramientas de IA (Claude, Cursor, GitHub Copilot,
+              GPT) para acelerar ciclos de desarrollo. Tecnólogo ADSO con
+              Ingeniería de Software en curso (7mo semestre) en Corporación
+              Tecnológica del Oriente.
             </p>
           </div>
         </div>
