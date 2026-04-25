@@ -1,21 +1,30 @@
 "use client";
 
-import { useEffect } from 'react';
-import ChatBot from '@/components/chatbot';
+import { useEffect } from "react";
+import { usePathname } from "next/navigation";
+import ChatBot from "@/components/chatbot";
+import FloatingNavbar from "@/components/shared/floating-navbar";
 
-export default function ClientLayout({ children }: { children: React.ReactNode }) {
+export default function ClientLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const pathname = usePathname();
+  const isAdmin = pathname?.startsWith("/admin");
+
   useEffect(() => {
     // Forzar scroll cuando el componente se monte
-    document.documentElement.style.overflow = 'auto';
-    document.documentElement.style.height = 'auto';
-    document.body.style.overflow = 'auto';
-    document.body.style.height = 'auto';
-    document.body.style.position = 'relative';
-    
+    document.documentElement.style.overflow = "auto";
+    document.documentElement.style.height = "auto";
+    document.body.style.overflow = "auto";
+    document.body.style.height = "auto";
+    document.body.style.position = "relative";
+
     // Asegurarse de que el scroll esté habilitado
     const enableScroll = () => {
-      document.documentElement.style.overflow = 'auto';
-      document.body.style.overflow = 'auto';
+      document.documentElement.style.overflow = "auto";
+      document.body.style.overflow = "auto";
     };
 
     // Habilitar scroll cada 100ms por un segundo para asegurar
@@ -29,8 +38,9 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
 
   return (
     <>
+      {!isAdmin && <FloatingNavbar />}
       {children}
-      <ChatBot />
+      {!isAdmin && <ChatBot />}
     </>
   );
 }
