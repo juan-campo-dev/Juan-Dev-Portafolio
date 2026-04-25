@@ -128,6 +128,22 @@ const config = {
           "0%, 100%": { transform: "scale(1)", opacity: "0.8" },
           "50%": { transform: "scale(1.2)", opacity: "1" },
         },
+        "float-slow": {
+          "0%, 100%": { transform: "translateY(0px)" },
+          "50%": { transform: "translateY(-20px)" },
+        },
+        "float-medium": {
+          "0%, 100%": { transform: "translateY(0px) rotate(0deg)" },
+          "50%": { transform: "translateY(-15px) rotate(5deg)" },
+        },
+        "float-fast": {
+          "0%, 100%": { transform: "translateY(0px) scale(1)" },
+          "50%": { transform: "translateY(-10px) scale(1.05)" },
+        },
+        "icon-glow": {
+          "0%, 100%": { boxShadow: "0 0 10px rgba(0, 240, 255, 0.2)" },
+          "50%": { boxShadow: "0 0 25px rgba(0, 240, 255, 0.5)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -140,6 +156,10 @@ const config = {
         "fade-in-up": "fade-in-up 0.8s ease-out forwards",
         "skill-fill": "skill-fill 1.5s ease-out forwards",
         "cursor-pulse": "cursor-pulse 1.5s infinite alternate",
+        "float-slow": "float-slow 6s ease-in-out infinite",
+        "float-medium": "float-medium 4s ease-in-out infinite",
+        "float-fast": "float-fast 3s ease-in-out infinite",
+        "icon-glow": "icon-glow 3s ease-in-out infinite",
       },
       backgroundImage: {
         "mono-grid":
