@@ -6,6 +6,7 @@ import { X, ExternalLink, Github, ChevronLeft, ChevronRight } from "lucide-react
 import { Button } from "@/components/ui/button";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { trackDemoClick, trackGithubClick } from "@/lib/tracking";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -22,6 +23,7 @@ interface ProjectModalProps {
   isPrivate?: boolean;
   demoPrivate?: boolean;
   demoSoon?: boolean;
+  slug?: string;
 }
 
 const ProjectModal: React.FC<ProjectModalProps> = React.memo(({
@@ -36,6 +38,7 @@ const ProjectModal: React.FC<ProjectModalProps> = React.memo(({
   isPrivate,
   demoPrivate,
   demoSoon,
+  slug,
 }) => {
   // Limpieza de overflow al cerrar modal o cambiar de ruta
   // Limpieza de overflow al montar el componente (previene scroll bloqueado tras recarga)
@@ -143,7 +146,7 @@ const ProjectModal: React.FC<ProjectModalProps> = React.memo(({
                     variant="outline"
                     className="inline-flex items-center justify-center bg-transparent border-neon-blue text-neon-blue hover:bg-neon-blue hover:text-black transition-colors duration-300 rounded-full px-3 md:px-4 py-2 tracking-normal text-sm"
                   >
-                    <a href={githubUrl} target="_blank" rel="noopener noreferrer">
+                    <a href={githubUrl} target="_blank" rel="noopener noreferrer" onClick={() => slug && trackGithubClick(slug)}>
                       <Github className="h-3 w-3 md:h-4 md:w-4 mr-1 md:mr-2" /> GitHub
                     </a>
                   </Button>
@@ -162,7 +165,7 @@ const ProjectModal: React.FC<ProjectModalProps> = React.memo(({
                     asChild
                     className="inline-flex items-center justify-center bg-neon-blue text-black hover:bg-electric-green transition-colors duration-300 rounded-full px-3 md:px-4 py-2 tracking-normal text-sm"
                   >
-                    <a href={demoUrl} target="_blank" rel="noopener noreferrer">
+                    <a href={demoUrl} target="_blank" rel="noopener noreferrer" onClick={() => slug && trackDemoClick(slug)}>
                       <ExternalLink className="h-3 w-3 md:h-4 md:w-4 mr-1 md:mr-2" /> Demo en Vivo
                     </a>
                   </Button>

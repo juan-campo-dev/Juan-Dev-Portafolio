@@ -2,13 +2,66 @@
 import SectionHeading from "@/components/shared/section-heading";
 import ProjectCard from "@/components/shared/project-card";
 import ProjectModal from "@/components/project-modal";
-import { PROJECTS } from "@/components/projects-data";
-import { useState } from "react";
+import { PROJECTS, type Project } from "@/components/projects-data";
+import { apiFetchOrFallback } from "@/lib/api-client";
+import { getTechIcons } from "@/lib/tech-icons";
+import { trackProjectView } from "@/lib/tracking";
+import { useEffect, useState } from "react";
+
+interface ApiProject extends Omit<Project, "techs"> {
+  technologies?: string[];
+  techs?: string[];
+}
+
+function normalizeProject(project: Project | ApiProject): Project {
+  const apiTechs = Array.isArray((project as ApiProject).technologies)
+    ? (project as ApiProject).technologies
+    : Array.isArray((project as ApiProject).techs)
+      ? (project as ApiProject).techs
+      : null;
+
+  return {
+    ...project,
+    images: project.images?.length ? project.images : ["/images/personal.png"],
+    techs: apiTechs ? getTechIcons(apiTechs) : (project as Project).techs,
+  } as Project;
+}
 
 
 export default function ProjectsSection() {
+  const [projects, setProjects] = useState<Project[]>(PROJECTS);
   const [modalOpen, setModalOpen] = useState(false);
   const [selected, setSelected] = useState<number | null>(null);
+
+  useEffect(() => {
+    let active = true;
+
+    apiFetchOrFallback<ApiProject[]>("/projects", PROJECTS as unknown as ApiProject[])
+      .then((data) => {
+        if (active) {
+          setProjects(data.map(normalizeProject));
+        }
+      })
+      .catch(() => {
+        if (active) {
+          setProjects(PROJECTS);
+        }
+      });
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const openProject = (index: number) => {
+    setSelected(index);
+    setModalOpen(true);
+
+    const slug = projects[index]?.slug;
+    if (slug) {
+      trackProjectView(slug);
+    }
+  };
 
   return (
     <section
@@ -22,8 +75,8 @@ export default function ProjectsSection() {
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {PROJECTS.map((project, index) => (
-            <div key={index} className="cursor-pointer" onClick={() => { setSelected(index); setModalOpen(true); }}>
+          {projects.map((project, index) => (
+            <div key={project.slug ?? index} className="cursor-pointer" onClick={() => openProject(index)}>
               <ProjectCard
                 title={project.title}
                 description={project.description}
@@ -38,19 +91,20 @@ export default function ProjectsSection() {
             </div>
           ))}
         </div>
-        {modalOpen && selected !== null && (
+        {modalOpen && selected !== null && projects[selected] && (
           <ProjectModal
             open={modalOpen}
             onClose={() => setModalOpen(false)}
-            images={PROJECTS[selected].images}
-            title={PROJECTS[selected].title}
-            description={PROJECTS[selected].description}
-            techs={PROJECTS[selected].techs}
-            githubUrl={PROJECTS[selected].githubUrl}
-            demoUrl={PROJECTS[selected].demoUrl}
-            isPrivate={PROJECTS[selected].githubPrivate}
-            demoPrivate={PROJECTS[selected].demoPrivate}
-            demoSoon={PROJECTS[selected].demoSoon}
+            images={projects[selected].images}
+            title={projects[selected].title}
+            description={projects[selected].description}
+            techs={projects[selected].techs}
+            githubUrl={projects[selected].githubUrl}
+            demoUrl={projects[selected].demoUrl}
+            isPrivate={projects[selected].githubPrivate}
+            demoPrivate={projects[selected].demoPrivate}
+            demoSoon={projects[selected].demoSoon}
+            slug={projects[selected].slug}
           />
         )}
       </div>

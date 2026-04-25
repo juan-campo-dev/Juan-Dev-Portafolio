@@ -18,9 +18,49 @@ yarn-error.log*
 
 # env files
 .env*
+!.env.example
+!.env*.example
+
+# local AI agent/skills files
+.agents/
+.claude/
+skills/
+skills-lock.json
 
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
 # VS Code config con tokens
 .vscode/mcp.json
+
+# Backend Laravel (en /backend)
+/backend/vendor/
+/backend/node_modules/
+/backend/storage/logs/*
+!/backend/storage/logs/.gitkeep
+/backend/storage/framework/cache/data/*
+/backend/storage/framework/sessions/*
+/backend/storage/framework/views/*
+/backend/storage/framework/testing/*
+!/backend/storage/framework/cache/data/.gitkeep
+!/backend/storage/framework/sessions/.gitkeep
+!/backend/storage/framework/views/.gitkeep
+!/backend/storage/framework/testing/.gitkeep
+/backend/bootstrap/cache/*.php
+/backend/database/database.sqlite
+/backend/.phpunit.result.cache
+/backend/.phpunit.cache
+/backend/public/storage
+/backend/public/hot
+/backend/Homestead.json
+/backend/Homestead.yaml
+/backend/auth.json
+/backend/.fleet
+/backend/.idea
+/backend/.nova
+/backend/.zed
+
+# Paquetes de despliegue (no se versionan)
+/deploy-packages/
+*.zip

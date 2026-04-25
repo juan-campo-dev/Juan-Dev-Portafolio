@@ -8,8 +8,14 @@ import RodinPlayground from "@/components/sections/rodin-playground";
 import ContactSection from "@/components/sections/contact-section";
 import SoftSkillsSection from "@/components/sections/soft-skills-section";
 import CursorFollower from "@/components/shared/cursor-follower";
+import { trackPageView } from "@/lib/tracking";
+import { useEffect } from "react";
 
 export default function Home() {
+  useEffect(() => {
+    trackPageView(window.location.pathname);
+  }, []);
+
   return (
     <div className="relative min-h-screen overflow-hidden">
       <CursorFollower />

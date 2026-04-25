@@ -22,7 +22,8 @@ export type EventType =
   | "page_view"
   | "project_view"
   | "click_github"
-  | "click_demo";
+  | "click_demo"
+  | "contact_click";
 
 export interface TrackPayload {
   type: EventType;
@@ -44,7 +45,7 @@ export async function track(payload: TrackPayload): Promise<void> {
   if (now - last < THROTTLE_MS) return;
 
   try {
-    await fetch(`${API_BASE}/track/${payload.type === "page_view" ? "visit" : payload.type === "project_view" ? "visit" : "click"}`, {
+    await fetch(`${API_BASE}/track-event`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       keepalive: true, // seguir enviando si el usuario navega

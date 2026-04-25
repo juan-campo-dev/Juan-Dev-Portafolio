@@ -28,11 +28,11 @@ Sistema tipo SaaS personal con frontend Next.js + React + Tailwind y backend Lar
 
 ### Stack
 
-| Capa | Tecnologías |
-|---|---|
-| **Frontend** | Next.js 15, React 19, TypeScript, Tailwind CSS, Framer Motion, Three.js |
-| **Backend** | Laravel 11, Sanctum, MySQL, MongoDB Atlas |
-| **Deploy** | Hostinger (compartido) — frontend `/public_html/juan-dev/` + Laravel `/api/` |
+| Capa         | Tecnologías                                                                  |
+| ------------ | ---------------------------------------------------------------------------- |
+| **Frontend** | Next.js 15, React 19, TypeScript, Tailwind CSS, Framer Motion, Three.js      |
+| **Backend**  | Laravel 11, Sanctum, MySQL, MongoDB Atlas                                    |
+| **Deploy**   | Hostinger (compartido) — frontend `/public_html/juan-dev/` + Laravel `/api/` |
 
 ---
 
