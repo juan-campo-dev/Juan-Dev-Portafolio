@@ -5,6 +5,7 @@
 /public/storage
 /database/database.sqlite
 /storage/*.key
+/storage/app/vertex-chatbot.json
 /storage/logs/*.log
 /vendor
 .env
