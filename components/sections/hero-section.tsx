@@ -1,19 +1,106 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 
+const CDN = "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons";
+
 const floatingIcons = [
-  { name: "React", icon: "⚛️", color: "#61DAFB", size: "w-14 h-14 md:w-16 md:h-16", pos: "top-[15%] right-[10%]", anim: "animate-float-slow", delay: "0s" },
-  { name: "JS", icon: "JS", color: "#F7DF1E", size: "w-11 h-11 md:w-13 md:h-13", pos: "top-[8%] right-[28%]", anim: "animate-float-medium", delay: "0.5s", textColor: "#000" },
-  { name: "TS", icon: "TS", color: "#3178C6", size: "w-11 h-11 md:w-13 md:h-13", pos: "top-[45%] right-[5%]", anim: "animate-float-fast", delay: "1s" },
-  { name: "Next.js", icon: "N", color: "#000", size: "w-12 h-12 md:w-14 md:h-14", pos: "top-[28%] right-[22%]", anim: "animate-float-medium", delay: "0.3s", border: true },
-  { name: "Python", icon: "🐍", color: "#3776AB", size: "w-12 h-12 md:w-14 md:h-14", pos: "top-[55%] right-[18%]", anim: "animate-float-slow", delay: "0.8s" },
-  { name: "Laravel", icon: "◆", color: "#FF2D20", size: "w-11 h-11 md:w-13 md:h-13", pos: "top-[35%] right-[35%]", anim: "animate-float-fast", delay: "1.2s" },
-  { name: "PHP", icon: "PHP", color: "#777BB4", size: "w-11 h-11 md:w-12 md:h-12", pos: "top-[65%] right-[30%]", anim: "animate-float-medium", delay: "0.6s" },
-  { name: "MySQL", icon: "🐬", color: "#4479A1", size: "w-11 h-11 md:w-13 md:h-13", pos: "top-[72%] right-[12%]", anim: "animate-float-slow", delay: "1.5s" },
-  { name: "Node", icon: "⬡", color: "#339933", size: "w-11 h-11 md:w-12 md:h-12", pos: "top-[20%] right-[42%]", anim: "animate-float-fast", delay: "0.2s" },
-  { name: "Git", icon: "⎇", color: "#F05032", size: "w-10 h-10 md:w-12 md:h-12", pos: "top-[78%] right-[40%]", anim: "animate-float-medium", delay: "1.8s" },
-  { name: "Docker", icon: "🐳", color: "#2496ED", size: "w-10 h-10 md:w-12 md:h-12", pos: "top-[50%] right-[40%]", anim: "animate-float-slow", delay: "0.9s" },
-  { name: "AI", icon: "✦", color: "#00F0FF", size: "w-12 h-12 md:w-14 md:h-14", pos: "top-[10%] right-[48%]", anim: "animate-float-fast", delay: "0.4s" },
+  {
+    name: "React",
+    img: `${CDN}/react/react-original.svg`,
+    size: "w-14 h-14 md:w-16 md:h-16",
+    pos: "top-[15%] right-[10%]",
+    anim: "animate-float-slow",
+    delay: "0s",
+  },
+  {
+    name: "JavaScript",
+    img: `${CDN}/javascript/javascript-original.svg`,
+    size: "w-11 h-11 md:w-13 md:h-13",
+    pos: "top-[8%] right-[28%]",
+    anim: "animate-float-medium",
+    delay: "0.5s",
+  },
+  {
+    name: "TypeScript",
+    img: `${CDN}/typescript/typescript-original.svg`,
+    size: "w-11 h-11 md:w-13 md:h-13",
+    pos: "top-[45%] right-[5%]",
+    anim: "animate-float-fast",
+    delay: "1s",
+  },
+  {
+    name: "Next.js",
+    img: `${CDN}/nextjs/nextjs-original.svg`,
+    size: "w-12 h-12 md:w-14 md:h-14",
+    pos: "top-[28%] right-[22%]",
+    anim: "animate-float-medium",
+    delay: "0.3s",
+    invert: true,
+  },
+  {
+    name: "Python",
+    img: `${CDN}/python/python-original.svg`,
+    size: "w-12 h-12 md:w-14 md:h-14",
+    pos: "top-[55%] right-[18%]",
+    anim: "animate-float-slow",
+    delay: "0.8s",
+  },
+  {
+    name: "Laravel",
+    img: `${CDN}/laravel/laravel-original.svg`,
+    size: "w-11 h-11 md:w-13 md:h-13",
+    pos: "top-[35%] right-[35%]",
+    anim: "animate-float-fast",
+    delay: "1.2s",
+  },
+  {
+    name: "PHP",
+    img: `${CDN}/php/php-original.svg`,
+    size: "w-12 h-12 md:w-14 md:h-14",
+    pos: "top-[65%] right-[30%]",
+    anim: "animate-float-medium",
+    delay: "0.6s",
+  },
+  {
+    name: "MySQL",
+    img: `${CDN}/mysql/mysql-original.svg`,
+    size: "w-11 h-11 md:w-13 md:h-13",
+    pos: "top-[72%] right-[12%]",
+    anim: "animate-float-slow",
+    delay: "1.5s",
+  },
+  {
+    name: "Node.js",
+    img: `${CDN}/nodejs/nodejs-original.svg`,
+    size: "w-11 h-11 md:w-12 md:h-12",
+    pos: "top-[20%] right-[42%]",
+    anim: "animate-float-fast",
+    delay: "0.2s",
+  },
+  {
+    name: "Git",
+    img: `${CDN}/git/git-original.svg`,
+    size: "w-10 h-10 md:w-12 md:h-12",
+    pos: "top-[78%] right-[40%]",
+    anim: "animate-float-medium",
+    delay: "1.8s",
+  },
+  {
+    name: "Docker",
+    img: `${CDN}/docker/docker-original.svg`,
+    size: "w-10 h-10 md:w-12 md:h-12",
+    pos: "top-[50%] right-[40%]",
+    anim: "animate-float-slow",
+    delay: "0.9s",
+  },
+  {
+    name: "Tailwind CSS",
+    img: `${CDN}/tailwindcss/tailwindcss-original.svg`,
+    size: "w-12 h-12 md:w-14 md:h-14",
+    pos: "top-[10%] right-[48%]",
+    anim: "animate-float-fast",
+    delay: "0.4s",
+  },
 ];
 
 export default function HeroSection() {
@@ -23,10 +110,10 @@ export default function HeroSection() {
       className="relative h-screen flex items-center bg-deep-space bg-cover bg-center bg-fixed overflow-hidden"
     >
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm z-10" />
-      
+
       {/* Glow effect top center */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-gradient-radial from-purple-600/30 via-purple-900/10 to-transparent rounded-full blur-3xl z-10 pointer-events-none" />
-      
+
       <div className="relative z-20 w-full max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 items-center gap-8">
         {/* Left side: Text content */}
         <div className="text-left">
@@ -45,8 +132,8 @@ export default function HeroSection() {
             className="text-base md:text-lg text-gray-400 mb-8 max-w-lg tracking-normal animate-fade-in-up leading-relaxed"
             style={{ animationDelay: "0.3s" }}
           >
-            Full Stack Software Engineer with experience in Website, Mobile,
-            & Software development. Check out my projects and skills
+            Full Stack Software Engineer with experience in Website, Mobile, &
+            Software development. Check out my projects and skills
           </p>
           <div
             className="flex flex-wrap gap-4 animate-fade-in-up"
@@ -76,37 +163,44 @@ export default function HeroSection() {
           <div className="absolute inset-0 opacity-10">
             <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
               <defs>
-                <pattern id="heroGrid" width="60" height="60" patternUnits="userSpaceOnUse">
-                  <path d="M 60 0 L 0 0 0 60" fill="none" stroke="#00F0FF" strokeWidth="0.5"/>
+                <pattern
+                  id="heroGrid"
+                  width="60"
+                  height="60"
+                  patternUnits="userSpaceOnUse"
+                >
+                  <path
+                    d="M 60 0 L 0 0 0 60"
+                    fill="none"
+                    stroke="#00F0FF"
+                    strokeWidth="0.5"
+                  />
                 </pattern>
               </defs>
               <rect width="100%" height="100%" fill="url(#heroGrid)" />
             </svg>
           </div>
-          
+
           {/* Orbital ring decorative */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] border border-gray-700/30 rounded-full" />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200px] h-[200px] border border-gray-700/20 rounded-full" />
-          
+
           {/* Floating icons */}
           {floatingIcons.map((item) => (
             <div
               key={item.name}
-              className={`absolute ${item.pos} ${item.size} ${item.anim} animate-icon-glow`}
+              className={`absolute ${item.pos} ${item.size} ${item.anim}`}
               style={{ animationDelay: item.delay }}
               title={item.name}
             >
-              <div
-                className={`w-full h-full rounded-xl flex items-center justify-center text-lg font-bold backdrop-blur-sm ${
-                  item.border ? "border border-gray-500" : ""
-                }`}
-                style={{
-                  backgroundColor: `${item.color}20`,
-                  color: item.textColor || item.color,
-                  border: item.border ? undefined : `1px solid ${item.color}30`,
-                }}
-              >
-                {item.icon}
+              <div className="w-full h-full rounded-xl flex items-center justify-center backdrop-blur-sm bg-white/5 border border-white/10 shadow-lg shadow-black/20 p-2.5">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={item.img}
+                  alt={item.name}
+                  className={`w-full h-full object-contain drop-shadow-lg ${item.invert ? "invert" : ""}`}
+                  loading="lazy"
+                />
               </div>
             </div>
           ))}

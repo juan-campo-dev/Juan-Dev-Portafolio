@@ -1,69 +1,99 @@
 import SectionHeading from "@/components/shared/section-heading";
 import Image from "next/image";
-import {
-  Download,
-  Sparkles,
-} from "lucide-react";
+import { Download, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
+
+const CDN = "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons";
 
 interface TechItem {
   name: string;
-  icon: string;
-  color: string;
-  bg?: string;
+  img: string;
+  invert?: boolean;
 }
 
 const techStack: { category: string; items: TechItem[] }[] = [
   {
     category: "Frontend",
     items: [
-      { name: "HTML5", icon: "🌐", color: "#E34F26", bg: "#E34F2615" },
-      { name: "CSS3", icon: "🎨", color: "#1572B6", bg: "#1572B615" },
-      { name: "JavaScript", icon: "JS", color: "#F7DF1E", bg: "#F7DF1E15" },
-      { name: "TypeScript", icon: "TS", color: "#3178C6", bg: "#3178C615" },
-      { name: "React", icon: "⚛️", color: "#61DAFB", bg: "#61DAFB15" },
-      { name: "Next.js", icon: "N", color: "#ffffff", bg: "#ffffff10" },
-      { name: "Tailwind", icon: "🌊", color: "#06B6D4", bg: "#06B6D415" },
+      { name: "HTML5", img: `${CDN}/html5/html5-original.svg` },
+      { name: "CSS3", img: `${CDN}/css3/css3-original.svg` },
+      { name: "JavaScript", img: `${CDN}/javascript/javascript-original.svg` },
+      { name: "TypeScript", img: `${CDN}/typescript/typescript-original.svg` },
+      { name: "React", img: `${CDN}/react/react-original.svg` },
+      {
+        name: "Next.js",
+        img: `${CDN}/nextjs/nextjs-original.svg`,
+        invert: true,
+      },
+      {
+        name: "Tailwind CSS",
+        img: `${CDN}/tailwindcss/tailwindcss-original.svg`,
+      },
+      { name: "Material UI", img: `${CDN}/materialui/materialui-original.svg` },
     ],
   },
   {
     category: "Backend",
     items: [
-      { name: "PHP", icon: "PHP", color: "#777BB4", bg: "#777BB415" },
-      { name: "Laravel", icon: "◆", color: "#FF2D20", bg: "#FF2D2015" },
-      { name: "Python", icon: "🐍", color: "#3776AB", bg: "#3776AB15" },
-      { name: "FastAPI", icon: "⚡", color: "#009688", bg: "#00968815" },
-      { name: "Flask", icon: "🧪", color: "#ffffff", bg: "#ffffff10" },
-      { name: "Node.js", icon: "⬡", color: "#339933", bg: "#33993315" },
-      { name: "Java", icon: "☕", color: "#ED8B00", bg: "#ED8B0015" },
+      { name: "PHP", img: `${CDN}/php/php-original.svg` },
+      { name: "Laravel", img: `${CDN}/laravel/laravel-original.svg` },
+      { name: "Python", img: `${CDN}/python/python-original.svg` },
+      { name: "FastAPI", img: `${CDN}/fastapi/fastapi-original.svg` },
+      { name: "Flask", img: `${CDN}/flask/flask-original.svg`, invert: true },
+      { name: "Node.js", img: `${CDN}/nodejs/nodejs-original.svg` },
+      {
+        name: "Express",
+        img: `${CDN}/express/express-original.svg`,
+        invert: true,
+      },
+      { name: "Java", img: `${CDN}/java/java-original.svg` },
     ],
   },
   {
     category: "Database & Cloud",
     items: [
-      { name: "MySQL", icon: "🐬", color: "#4479A1", bg: "#4479A115" },
-      { name: "PostgreSQL", icon: "🐘", color: "#4169E1", bg: "#4169E115" },
-      { name: "SQL Server", icon: "🗄️", color: "#CC2927", bg: "#CC292715" },
-      { name: "MongoDB", icon: "🍃", color: "#47A248", bg: "#47A24815" },
-      { name: "Firebase", icon: "🔥", color: "#FFCA28", bg: "#FFCA2815" },
+      { name: "MySQL", img: `${CDN}/mysql/mysql-original.svg` },
+      { name: "PostgreSQL", img: `${CDN}/postgresql/postgresql-original.svg` },
+      { name: "MongoDB", img: `${CDN}/mongodb/mongodb-original.svg` },
+      { name: "Firebase", img: `${CDN}/firebase/firebase-original.svg` },
+      {
+        name: "SQL Server",
+        img: `${CDN}/microsoftsqlserver/microsoftsqlserver-plain.svg`,
+        invert: true,
+      },
     ],
   },
   {
     category: "Tools & DevOps",
     items: [
-      { name: "Git", icon: "⎇", color: "#F05032", bg: "#F0503215" },
-      { name: "Docker", icon: "🐳", color: "#2496ED", bg: "#2496ED15" },
-      { name: "Figma", icon: "🎯", color: "#F24E1E", bg: "#F24E1E15" },
-      { name: "Illustrator", icon: "Ai", color: "#FF9A00", bg: "#FF9A0015" },
+      { name: "Git", img: `${CDN}/git/git-original.svg` },
+      { name: "Docker", img: `${CDN}/docker/docker-original.svg` },
+      { name: "Figma", img: `${CDN}/figma/figma-original.svg` },
+      { name: "Illustrator", img: `${CDN}/illustrator/illustrator-plain.svg` },
+      { name: "VS Code", img: `${CDN}/vscode/vscode-original.svg` },
+      {
+        name: "GitHub",
+        img: `${CDN}/github/github-original.svg`,
+        invert: true,
+      },
     ],
   },
   {
     category: "AI & Generative",
     items: [
-      { name: "Claude", icon: "✦", color: "#D4A574", bg: "#D4A57415" },
-      { name: "GitHub Copilot", icon: "🤖", color: "#00F0FF", bg: "#00F0FF15" },
-      { name: "GPT", icon: "◉", color: "#10A37F", bg: "#10A37F15" },
-      { name: "Cursor", icon: "▸", color: "#7B61FF", bg: "#7B61FF15" },
+      {
+        name: "Claude",
+        img: "https://upload.wikimedia.org/wikipedia/commons/8/8a/Claude_AI_logo.svg",
+      },
+      {
+        name: "GitHub Copilot",
+        img: `${CDN}/github/github-original.svg`,
+        invert: true,
+      },
+      {
+        name: "OpenAI / GPT",
+        img: "https://upload.wikimedia.org/wikipedia/commons/0/04/ChatGPT_logo.svg",
+      },
     ],
   },
 ];
@@ -114,9 +144,9 @@ export default function AboutSection() {
             >
               Especializado en construir sistemas completos de gestión integral
               con PHP, JavaScript, MySQL y Python para IA y análisis de datos.
-              Uso avanzado de herramientas de IA (Claude, Cursor, GitHub Copilot,
-              GPT) para acelerar ciclos de desarrollo. Tecnólogo ADSO con
-              Ingeniería de Software en curso (7mo semestre) en Corporación
+              Uso avanzado de herramientas de IA (Claude, Cursor, GitHub
+              Copilot, GPT) para acelerar ciclos de desarrollo. Tecnólogo ADSO
+              con Ingeniería de Software en curso (7mo semestre) en Corporación
               Tecnológica del Oriente.
             </p>
           </div>
@@ -139,7 +169,11 @@ export default function AboutSection() {
 
           <div className="space-y-10">
             {techStack.map((group, gi) => (
-              <div key={group.category} className="animate-fade-in-up" style={{ animationDelay: `${0.8 + gi * 0.15}s` }}>
+              <div
+                key={group.category}
+                className="animate-fade-in-up"
+                style={{ animationDelay: `${0.8 + gi * 0.15}s` }}
+              >
                 <h4 className="text-sm font-semibold text-neon-blue/70 uppercase tracking-widest mb-4 text-center">
                   {group.category}
                 </h4>
@@ -147,29 +181,26 @@ export default function AboutSection() {
                   {group.items.map((tech) => (
                     <div
                       key={tech.name}
-                      className="group relative flex items-center gap-2.5 px-4 py-2.5 rounded-xl border transition-all duration-300 hover:scale-105 hover:-translate-y-1 cursor-default"
-                      style={{
-                        backgroundColor: tech.bg,
-                        borderColor: `${tech.color}30`,
-                      }}
+                      className="group relative flex flex-col items-center gap-2 px-4 py-3 rounded-xl border border-white/10 bg-white/5 transition-all duration-300 hover:scale-105 hover:-translate-y-1 hover:bg-white/10 hover:border-white/20 cursor-default min-w-[80px]"
                     >
-                      <span
-                        className="text-xl leading-none"
-                        style={{ color: tech.color }}
-                      >
-                        {tech.icon}
-                      </span>
-                      <span
-                        className="text-sm font-medium"
-                        style={{ color: tech.color }}
-                      >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={tech.img}
+                        alt={tech.name}
+                        width={40}
+                        height={40}
+                        className={`w-10 h-10 object-contain drop-shadow-lg ${tech.invert ? "invert" : ""}`}
+                        loading="lazy"
+                      />
+                      <span className="text-xs font-medium text-gray-300 group-hover:text-white transition-colors">
                         {tech.name}
                       </span>
                       {/* Hover glow */}
                       <div
                         className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
                         style={{
-                          boxShadow: `0 0 20px ${tech.color}25, inset 0 0 20px ${tech.color}10`,
+                          boxShadow:
+                            "0 0 25px rgba(0, 240, 255, 0.15), inset 0 0 25px rgba(0, 240, 255, 0.05)",
                         }}
                       />
                     </div>
