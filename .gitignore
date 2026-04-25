@@ -22,3 +22,5 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+# VS Code config con tokens
+.vscode/mcp.json

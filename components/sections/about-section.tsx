@@ -71,7 +71,7 @@ export default function AboutSection() {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
             <div className="absolute bottom-4 left-4 text-white text-xl font-bold tracking-wide">
-              Juan Campo 
+              Juan Campo
             </div>
           </div>
 
@@ -237,11 +237,8 @@ export default function AboutSection() {
                   asChild
                   className="inline-flex items-center justify-center bg-neon-blue text-black hover:bg-electric-green transition-all duration-300 rounded-full px-6 py-3 text-base font-semibold shadow-lg hover:shadow-neon-blue/50 tracking-normal"
                 >
-                  <a
-                    href="/cv/Formato hoja de vida aprendiz SENA.pdf"
-                    download="Juan_Campo_Resume_Normal.pdf"
-                  >
-                    <Download className="mr-2 h-4 w-4" /> CV Normal
+                  <a href="/cv/cv.pdf" download="Juan_Campo_CV.pdf">
+                    <Download className="mr-2 h-4 w-4" /> CV Profesional
                   </a>
                 </Button>
                 <Button
@@ -249,11 +246,17 @@ export default function AboutSection() {
                   variant="outline"
                   className="inline-flex items-center justify-center bg-transparent border-neon-blue text-neon-blue hover:bg-neon-blue hover:text-black transition-all duration-300 rounded-full px-6 py-3 text-base font-semibold shadow-lg hover:shadow-neon-blue/50 tracking-normal"
                 >
-                  <a
-                    href="/cv/Formato hoja de vida aprendiz SENA.pdf"
-                    download="Juan_Campo_Resume_SENA.pdf"
-                  >
+                  <a href="/cv/cv-sena.pdf" download="Juan_Campo_CV_SENA.pdf">
                     <Download className="mr-2 h-4 w-4" /> CV SENA
+                  </a>
+                </Button>
+                <Button
+                  asChild
+                  variant="outline"
+                  className="inline-flex items-center justify-center bg-transparent border-neon-blue text-neon-blue hover:bg-neon-blue hover:text-black transition-all duration-300 rounded-full px-6 py-3 text-base font-semibold shadow-lg hover:shadow-neon-blue/50 tracking-normal"
+                >
+                  <a href="#certificates">
+                    <Sparkles className="mr-2 h-4 w-4" /> Ver Certificados
                   </a>
                 </Button>
               </div>
