@@ -64,3 +64,5 @@ next-env.d.ts
 # Paquetes de despliegue (no se versionan)
 /deploy-packages/
 *.zip
+
+Chatbot.json

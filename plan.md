@@ -28,6 +28,7 @@ C:\Users\USUARIO\Desktop\proyectos\
 ```
 
 En Hostinger:
+
 - Frontend: `/public_html/juan-dev/`
 - Backend Laravel: `/public_html/juan-dev/api/`
 
@@ -36,6 +37,7 @@ En Hostinger:
 ## 1. Estado Real
 
 ### Frontend (`Repositorio-main`) - LISTO
+
 - Next.js 15 + React 19 + TS + Tailwind, diseno intacto.
 - `components/sections/projects-section.tsx` consume API con fallback local.
 - `lib/tracking.ts` envia eventos a `/api/track-event` sin bloquear UX.
@@ -43,6 +45,7 @@ En Hostinger:
 - Build estatico verificado, ZIP generado.
 
 ### Backend (`backend/`) - LISTO LOCAL, FALTA SUBIR
+
 - Laravel 11.51 + PHP 8.4 + Sanctum 4.3.
 - Modelos: `Project`, `Certificate`, `TrackEvent`, `User`.
 - Migraciones: `users`, `personal_access_tokens`, `projects`, `certificates`, `track_events`.
@@ -62,6 +65,7 @@ En Hostinger:
 - ZIP con `vendor/` --no-dev empaquetado.
 
 ### Hostinger - PENDIENTE
+
 - DB MySQL creada y VACIA: `u201159527_juandev`.
 - Subdominio `juan-dev.app-dev.icu` apuntando a `/public_html/juan-dev`.
 - Falta: subir backend ZIP, importar SQL, crear `.env`, probar `/api/projects`.
@@ -143,13 +147,16 @@ TRACK_IP_HASH_SALT=cambia-esto-por-algo-largo-y-aleatorio
 ### 3.3 Generar APP_KEY
 
 Opcion sin SSH (en tu PC):
+
 ```powershell
 cd C:\Users\USUARIO\Desktop\proyectos\Repositorio-main\backend
 php artisan key:generate --show
 ```
+
 Copia el `base64:...` y pegalo en `APP_KEY=` del `.env` en Hostinger.
 
 Con SSH:
+
 ```bash
 cd ~/domains/app-dev.icu/public_html/juan-dev/api
 php artisan key:generate --force
@@ -165,6 +172,7 @@ php artisan key:generate --force
 ### 3.5 Permisos
 
 Via File Manager -> Permisos:
+
 - `storage/` y subcarpetas: `775`
 - `bootstrap/cache/`: `775`
 
@@ -180,19 +188,23 @@ Si responde JSON: **PRIMERA VICTORIA REAL**.
 ## 4. Errores Comunes Y Solucion
 
 ### 500 Internal Server Error
+
 - Ver `storage/logs/laravel.log` en File Manager.
 - Causas: `APP_KEY` vacio, permisos `storage/` mal (debe ser 775), `.env` con sintaxis rota.
 
 ### 404 en `/api/...`
+
 - Falta `.htaccess` en `/public_html/juan-dev/api/`.
 - Verificar `/public_html/juan-dev/api/public/.htaccess` (default Laravel).
 
 ### DB no conecta
+
 - En Hostinger usa `DB_HOST=127.0.0.1` (no `localhost`).
 - Probar credenciales en phpMyAdmin manualmente.
 - Password con `$` debe ir en comillas dobles en `.env`.
 
 ### CORS bloqueado
+
 - `config/cors.php` ya permite `https://juan-dev.app-dev.icu`. Si cambias dominio, edita y resube.
 
 ---
