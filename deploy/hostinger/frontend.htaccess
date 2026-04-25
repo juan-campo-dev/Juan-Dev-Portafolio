@@ -3,6 +3,9 @@ DirectoryIndex index.html
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
+  RewriteRule ^_next/ - [L]
+  RewriteRule ^images/ - [L]
+  RewriteRule ^cv/ - [L]
   RewriteRule ^admin/?$ admin.html [L]
   RewriteCond %{REQUEST_FILENAME} -f [OR]
   RewriteCond %{REQUEST_FILENAME} -d

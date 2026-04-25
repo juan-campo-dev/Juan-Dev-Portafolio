@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "build": "next build",
+    "build:hostinger": "powershell -ExecutionPolicy Bypass -File ./deploy/hostinger/build-static.ps1",
+    "deploy:hostinger": "powershell -ExecutionPolicy Bypass -File ./deploy/hostinger/deploy-frontend.ps1",
     "dev": "next dev",
     "lint": "next lint",
     "start": "next start"

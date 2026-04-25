@@ -330,9 +330,9 @@ export default function AdminPage() {
     return (
       <main className="min-h-screen bg-black/95 px-4 py-16 text-white">
         <div className="mx-auto flex min-h-[calc(100vh-8rem)] max-w-md items-center">
-          <Card className="w-full border-[#00f0ff]/25 bg-black/80 text-white shadow-2xl shadow-[#00f0ff]/10 backdrop-blur-xl">
+          <Card className="w-full overflow-hidden rounded-lg border border-gray-700 bg-cyber-gray text-white shadow-lg shadow-black/40">
             <CardHeader>
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full border border-[#00f0ff]/30 bg-[#00f0ff]/10 text-neon-blue">
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full border border-[#00f0ff]/30 bg-black/45 text-neon-blue shadow-[0_0_18px_rgba(0,240,255,0.18)]">
                 <Lock className="h-5 w-5" />
               </div>
               <CardTitle className="text-2xl tracking-normal">
@@ -350,7 +350,7 @@ export default function AdminPage() {
                     id="email"
                     value={email}
                     onChange={(event) => setEmail(event.target.value)}
-                    className="border-[#00f0ff]/20 bg-black/60"
+                    className="border-gray-700 bg-black/60 text-white focus-visible:ring-neon-blue"
                   />
                 </div>
                 <div className="space-y-2">
@@ -360,7 +360,7 @@ export default function AdminPage() {
                     type="password"
                     value={password}
                     onChange={(event) => setPassword(event.target.value)}
-                    className="border-[#00f0ff]/20 bg-black/60"
+                    className="border-gray-700 bg-black/60 text-white focus-visible:ring-neon-blue"
                   />
                 </div>
                 {loginError && (
