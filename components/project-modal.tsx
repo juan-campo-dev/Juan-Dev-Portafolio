@@ -10,6 +10,12 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { trackDemoClick, trackGithubClick } from "@/lib/tracking";
@@ -84,15 +90,25 @@ const ProjectModal: React.FC<ProjectModalProps> = React.memo(
       onClose();
     }, [onClose]);
 
-    if (!open) return null;
-
     return (
-      <div className={overlaySurface.root}>
-        <div className={overlaySurface.backdrop} />
-        <div className="relative z-10 w-full max-w-7xl max-h-[95vh] overflow-y-auto rounded-2xl">
-          <div className={overlaySurface.glow}>
-            <div className="h-full w-full rounded-2xl bg-black/90 backdrop-blur-md" />
-          </div>
+      <Dialog
+        open={open}
+        onOpenChange={(o) => {
+          if (!o) handleClose();
+        }}
+      >
+        <DialogContent
+          className={cn(
+            // Conserva look-and-feel actual: tamaño grande, scroll interno,
+            // borde neon. El [&>button]:hidden oculta el X automatico del
+            // DialogContent porque ya hay un X custom dentro del header.
+            "z-[90] w-[calc(100vw-2rem)] max-w-7xl max-h-[95vh] overflow-y-auto rounded-2xl border-[#00f0ff]/20 bg-black/85 backdrop-blur-md p-0 [&>button]:hidden",
+          )}
+        >
+          <DialogTitle className="sr-only">{title}</DialogTitle>
+          <DialogDescription className="sr-only">
+            Detalles del proyecto {title}
+          </DialogDescription>
           <div className={cn("relative min-h-fit", overlaySurface.panel)}>
             {/* Header */}
             <div
@@ -274,8 +290,8 @@ const ProjectModal: React.FC<ProjectModalProps> = React.memo(
 
             <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#00f0ff] to-transparent animate-pulse" />
           </div>
-        </div>
-      </div>
+        </DialogContent>
+      </Dialog>
     );
   },
 );

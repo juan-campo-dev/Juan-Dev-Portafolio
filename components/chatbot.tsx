@@ -32,14 +32,18 @@ const MessageBubble = memo(function MessageBubble({
       className={`flex items-start space-x-2 mb-4 ${isUser ? "flex-row-reverse space-x-reverse" : ""}`}
     >
       <div
-        className={isUser ? chatbotSurface.userAvatar : chatbotSurface.botAvatar}
+        className={
+          isUser ? chatbotSurface.userAvatar : chatbotSurface.botAvatar
+        }
       >
         {isUser ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
       </div>
 
       <div className={`max-w-[80%] ${isUser ? "text-right" : "text-left"}`}>
         <div
-          className={isUser ? chatbotSurface.userBubble : chatbotSurface.botBubble}
+          className={
+            isUser ? chatbotSurface.userBubble : chatbotSurface.botBubble
+          }
         >
           <p className="text-sm leading-relaxed whitespace-pre-wrap">
             {message.content}
