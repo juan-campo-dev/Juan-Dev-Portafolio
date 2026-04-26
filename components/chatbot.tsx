@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { memo, useCallback, useEffect, useRef, useState } from "react";
 import { MessageCircle, X, Send, User, Bot } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useChatbot, Message } from "@/hooks/use-chatbot";
@@ -11,6 +11,47 @@ import { chatbotSurface } from "@/lib/ui-system";
 interface ChatBotProps {
   className?: string;
 }
+
+const formatTime = (date: Date) =>
+  date.toLocaleTimeString("es-ES", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+// MessageBubble se declara FUERA del componente padre. Si lo declaras dentro,
+// React lo trata como un componente nuevo en cada render y desmonta/remonta
+// cada burbuja, perdiendo memoización y disparando reflow.
+const MessageBubble = memo(function MessageBubble({
+  message,
+}: {
+  message: Message;
+}) {
+  const isUser = message.role === "user";
+  return (
+    <div
+      className={`flex items-start space-x-2 mb-4 ${isUser ? "flex-row-reverse space-x-reverse" : ""}`}
+    >
+      <div
+        className={isUser ? chatbotSurface.userAvatar : chatbotSurface.botAvatar}
+      >
+        {isUser ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
+      </div>
+
+      <div className={`max-w-[80%] ${isUser ? "text-right" : "text-left"}`}>
+        <div
+          className={isUser ? chatbotSurface.userBubble : chatbotSurface.botBubble}
+        >
+          <p className="text-sm leading-relaxed whitespace-pre-wrap">
+            {message.content}
+          </p>
+        </div>
+        <div className="text-xs text-gray-500 mt-1 px-2">
+          {formatTime(message.timestamp)}
+        </div>
+      </div>
+    </div>
+  );
+});
 
 const ChatBot: React.FC<ChatBotProps> = ({ className = "" }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -33,59 +74,21 @@ const ChatBot: React.FC<ChatBotProps> = ({ className = "" }) => {
     }
   }, [isOpen]);
 
-  const handleSendMessage = async () => {
+  const handleSendMessage = useCallback(async () => {
     if (!inputValue.trim() || isLoading) return;
-
     await sendMessage(inputValue);
     setInputValue("");
-  };
+  }, [inputValue, isLoading, sendMessage]);
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      handleSendMessage();
-    }
-  };
-
-  const formatTime = (date: Date) => {
-    return date.toLocaleTimeString("es-ES", {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  };
-
-  const MessageBubble: React.FC<{ message: Message }> = ({ message }) => {
-    const isUser = message.role === "user";
-
-    return (
-      <div
-        className={`flex items-start space-x-2 mb-4 ${isUser ? "flex-row-reverse space-x-reverse" : ""}`}
-      >
-        <div
-          className={
-            isUser ? chatbotSurface.userAvatar : chatbotSurface.botAvatar
-          }
-        >
-          {isUser ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
-        </div>
-
-        <div className={`max-w-[80%] ${isUser ? "text-right" : "text-left"}`}>
-          <div
-            className={
-              isUser ? chatbotSurface.userBubble : chatbotSurface.botBubble
-            }
-          >
-            <p className="text-sm leading-relaxed whitespace-pre-wrap">
-              {message.content}
-            </p>
-          </div>
-          <div className="text-xs text-gray-500 mt-1 px-2">
-            {formatTime(message.timestamp)}
-          </div>
-        </div>
-      </div>
-    );
-  };
+  const handleKeyPress = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        handleSendMessage();
+      }
+    },
+    [handleSendMessage],
+  );
 
   return (
     <div

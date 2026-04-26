@@ -11,7 +11,6 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@radix-ui/react-tooltip";
-import emailjs from "@emailjs/browser";
 
 export default function ContactSection() {
   const [formData, setFormData] = useState({
@@ -37,6 +36,9 @@ export default function ContactSection() {
     setErrorMessage("");
 
     try {
+      // EmailJS pesa ~6KB; lo cargamos solo cuando el usuario realmente envía.
+      const { default: emailjs } = await import("@emailjs/browser");
+
       // Configuración de EmailJS
       const serviceId = "service_djky23a"; // Service ID de Gmail
       const templateId = "template_85zvr85"; // Template ID para recibir mensajes

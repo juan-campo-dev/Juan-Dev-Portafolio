@@ -1,7 +1,6 @@
 import React from "react";
 import { Geist } from "next/font/google";
 import "./globals.css";
-import AnimatedBackground from "@/components/shared/animated-background";
 import ClientLayout from "@/components/shared/client-layout";
 
 const geist = Geist({
@@ -38,7 +37,6 @@ export default function RootLayout({
         }}
       >
         <ClientLayout>
-          <AnimatedBackground />
           <div className="relative w-full min-h-[100dvh]">{children}</div>
         </ClientLayout>
       </body>

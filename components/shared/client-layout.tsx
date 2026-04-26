@@ -12,6 +12,13 @@ const ChatBot = dynamic(() => import("@/components/chatbot"), {
   loading: () => null,
 });
 
+// AnimatedBackground (tsparticles + slim engine, ~70-90 KB) se difiere para no
+// bloquear el primer paint y para no penalizar TTI en mobile.
+const AnimatedBackground = dynamic(
+  () => import("@/components/shared/animated-background"),
+  { ssr: false, loading: () => null },
+);
+
 export default function ClientLayout({
   children,
 }: {
@@ -32,6 +39,7 @@ export default function ClientLayout({
   return (
     <OverlayFocusProvider>
       {!isAdmin && <FloatingNavbar />}
+      {!isAdmin && <AnimatedBackground />}
       {children}
       {!isAdmin && <ChatBot />}
     </OverlayFocusProvider>

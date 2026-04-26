@@ -20,19 +20,26 @@ export interface ApiOptions extends RequestInit {
  */
 export async function apiFetch<T = unknown>(
   path: string,
-  options: ApiOptions = {}
+  options: ApiOptions = {},
 ): Promise<T> {
-  const { timeout = 10_000, revalidate = 60, ...rest } = options;
+  const { timeout = 5_000, revalidate = 60, signal: externalSignal, ...rest } =
+    options;
 
   // Si no hay API_BASE configurado todavía, lanzar error explícito
   if (!API_BASE) {
     throw new Error(
-      "[api-client] NEXT_PUBLIC_API_URL no está configurada. Define la variable en .env.local."
+      "[api-client] NEXT_PUBLIC_API_URL no está configurada. Define la variable en .env.local.",
     );
   }
 
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeout);
+  // Si el caller pasa su propio signal, lo encadenamos al nuestro.
+  const onExternalAbort = () => controller.abort();
+  if (externalSignal) {
+    if (externalSignal.aborted) controller.abort();
+    else externalSignal.addEventListener("abort", onExternalAbort);
+  }
 
   try {
     const res = await fetch(`${API_BASE}${path}`, {
@@ -53,6 +60,9 @@ export async function apiFetch<T = unknown>(
     return (await res.json()) as T;
   } finally {
     clearTimeout(timer);
+    if (externalSignal) {
+      externalSignal.removeEventListener("abort", onExternalAbort);
+    }
   }
 }
 

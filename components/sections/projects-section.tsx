@@ -43,26 +43,23 @@ export default function ProjectsSection() {
   const [selected, setSelected] = useState<number | null>(null);
 
   useEffect(() => {
-    let active = true;
+    const controller = new AbortController();
 
     apiFetchOrFallback<ApiProject[]>(
       "/projects",
       PROJECTS as unknown as ApiProject[],
+      { signal: controller.signal },
     )
       .then((data) => {
-        if (active) {
-          setProjects(data.map(normalizeProject).filter(isVisibleProject));
-        }
+        if (controller.signal.aborted) return;
+        setProjects(data.map(normalizeProject).filter(isVisibleProject));
       })
       .catch(() => {
-        if (active) {
-          setProjects(PROJECTS.filter(isVisibleProject));
-        }
+        if (controller.signal.aborted) return;
+        setProjects(PROJECTS.filter(isVisibleProject));
       });
 
-    return () => {
-      active = false;
-    };
+    return () => controller.abort();
   }, []);
 
   const openProject = (index: number) => {

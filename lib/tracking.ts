@@ -33,8 +33,47 @@ export interface TrackPayload {
 
 /**
  * Registra un evento. Es fire-and-forget: si la API falla, no rompe la UI.
+ *
+ * El envío se difiere a `requestIdleCallback` (o un microtask) para que el
+ * tracking nunca compita con render/scroll. Si llegan varios eventos seguidos
+ * dentro del mismo idle window, se procesan en orden sin bloquear el frame.
  */
-export async function track(payload: TrackPayload): Promise<void> {
+const queue: Array<{ key: string; body: Record<string, unknown> }> = [];
+let flushScheduled = false;
+
+const flush = async () => {
+  flushScheduled = false;
+  while (queue.length) {
+    const item = queue.shift();
+    if (!item) break;
+    try {
+      await fetch(`${API_BASE}/track-event`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        keepalive: true,
+        body: JSON.stringify(item.body),
+      });
+      window.localStorage.setItem(item.key, String(Date.now()));
+    } catch {
+      // Silencioso por diseño — tracking nunca debe romper UX
+    }
+  }
+};
+
+const scheduleFlush = () => {
+  if (flushScheduled) return;
+  flushScheduled = true;
+  const ric = (window as unknown as {
+    requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
+  }).requestIdleCallback;
+  if (ric) {
+    ric(flush, { timeout: 2000 });
+  } else {
+    window.setTimeout(flush, 0);
+  }
+};
+
+export function track(payload: TrackPayload): void {
   if (typeof window === "undefined") return;
   if (!API_BASE) return; // backend aún no configurado → no-op silencioso
 
@@ -43,22 +82,19 @@ export async function track(payload: TrackPayload): Promise<void> {
   const last = Number(window.localStorage.getItem(key) ?? 0);
   const now = Date.now();
   if (now - last < THROTTLE_MS) return;
+  // Marca optimista para evitar duplicados si el usuario dispara el mismo
+  // evento dos veces antes del flush.
+  window.localStorage.setItem(key, String(now));
 
-  try {
-    await fetch(`${API_BASE}/track-event`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      keepalive: true, // seguir enviando si el usuario navega
-      body: JSON.stringify({
-        ...payload,
-        referrer: document.referrer || null,
-        user_agent: navigator.userAgent,
-      }),
-    });
-    window.localStorage.setItem(key, String(now));
-  } catch {
-    // Silencioso por diseño — tracking nunca debe romper UX
-  }
+  queue.push({
+    key,
+    body: {
+      ...payload,
+      referrer: document.referrer || null,
+      user_agent: navigator.userAgent,
+    },
+  });
+  scheduleFlush();
 }
 
 /** Helpers de conveniencia */
