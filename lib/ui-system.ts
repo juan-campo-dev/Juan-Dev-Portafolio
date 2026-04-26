@@ -5,8 +5,12 @@ export const overlaySurface = {
     "absolute inset-0 bg-black/20 backdrop-blur-sm transition-opacity duration-300",
   glow:
     "pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-r from-[#00f0ff] via-[#0080ff] to-[#00f0ff] p-[1px] opacity-70 animate-pulse-glow",
+  // OJO: NO incluir "relative" aqui. Cuando este token se aplica a un
+  // <DialogContent> de Radix, "relative" pisa el "fixed left-1/2 top-1/2"
+  // del centrado y el modal desaparece (queda en el flujo del documento).
+  // Quien necesite "relative" lo agrega en su propio wrapper.
   panel:
-    "relative overflow-hidden rounded-2xl border border-[#00f0ff]/20 bg-black/85 text-white shadow-2xl backdrop-blur-md",
+    "overflow-hidden rounded-2xl border border-[#00f0ff]/20 bg-black/85 text-white shadow-2xl backdrop-blur-md",
   header:
     "flex items-center justify-between border-b border-[#00f0ff]/20 bg-gradient-to-r from-[#00f0ff]/10 via-transparent to-[#00f0ff]/10",
   section:

@@ -98,6 +98,7 @@ const ProjectModal: React.FC<ProjectModalProps> = React.memo(
         }}
       >
         <DialogContent
+          onOpenAutoFocus={(e) => e.preventDefault()}
           className={cn(
             // Conserva look-and-feel actual: tamaño grande, scroll interno,
             // borde neon. El [&>button]:hidden oculta el X automatico del
