@@ -67,3 +67,10 @@ next-env.d.ts
 
 Chatbot.json
 /backend/storage/app/vertex-chatbot.json
+
+# Local deploy + sensitive
+wincp/
+deploy-q.txt
+Certificados/
+/Cv_Juan.pdf
+

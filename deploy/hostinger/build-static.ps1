@@ -4,6 +4,9 @@ $repoRoot = Resolve-Path (Join-Path $PSScriptRoot "..\..")
 $apiPath = Join-Path $repoRoot "app\api"
 $apiBackupPath = Join-Path $repoRoot ".static-export-api-backup"
 $outPath = Join-Path $repoRoot "out"
+$adminHtmlPath = Join-Path $outPath "admin.html"
+$adminFolderPath = Join-Path $outPath "admin"
+$adminIndexPath = Join-Path $adminFolderPath "index.html"
 $htaccessSource = Join-Path $PSScriptRoot "frontend.htaccess"
 $htaccessTarget = Join-Path $outPath ".htaccess"
 
@@ -24,6 +27,11 @@ try {
   npm run build
   if ($LASTEXITCODE -ne 0) {
     throw "next build falló con código $LASTEXITCODE"
+  }
+
+  if (Test-Path $adminHtmlPath) {
+    New-Item -ItemType Directory -Path $adminFolderPath -Force | Out-Null
+    Copy-Item $adminHtmlPath $adminIndexPath -Force
   }
 
   Copy-Item $htaccessSource $htaccessTarget -Force

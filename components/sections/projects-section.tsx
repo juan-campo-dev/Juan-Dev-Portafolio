@@ -1,4 +1,3 @@
-
 import SectionHeading from "@/components/shared/section-heading";
 import ProjectCard from "@/components/shared/project-card";
 import ProjectModal from "@/components/project-modal";
@@ -11,6 +10,10 @@ import { useEffect, useState } from "react";
 interface ApiProject extends Omit<Project, "techs"> {
   technologies?: string[];
   techs?: string[];
+}
+
+function isVisibleProject(project: Pick<Project, "slug">): boolean {
+  return project.slug !== "tentaapp";
 }
 
 function normalizeProject(project: Project | ApiProject): Project {
@@ -27,24 +30,28 @@ function normalizeProject(project: Project | ApiProject): Project {
   } as Project;
 }
 
-
 export default function ProjectsSection() {
-  const [projects, setProjects] = useState<Project[]>(PROJECTS);
+  const [projects, setProjects] = useState<Project[]>(() =>
+    PROJECTS.filter(isVisibleProject),
+  );
   const [modalOpen, setModalOpen] = useState(false);
   const [selected, setSelected] = useState<number | null>(null);
 
   useEffect(() => {
     let active = true;
 
-    apiFetchOrFallback<ApiProject[]>("/projects", PROJECTS as unknown as ApiProject[])
+    apiFetchOrFallback<ApiProject[]>(
+      "/projects",
+      PROJECTS as unknown as ApiProject[],
+    )
       .then((data) => {
         if (active) {
-          setProjects(data.map(normalizeProject));
+          setProjects(data.map(normalizeProject).filter(isVisibleProject));
         }
       })
       .catch(() => {
         if (active) {
-          setProjects(PROJECTS);
+          setProjects(PROJECTS.filter(isVisibleProject));
         }
       });
 
@@ -76,7 +83,11 @@ export default function ProjectsSection() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map((project, index) => (
-            <div key={project.slug ?? index} className="cursor-pointer" onClick={() => openProject(index)}>
+            <div
+              key={project.slug ?? index}
+              className="h-full cursor-pointer"
+              onClick={() => openProject(index)}
+            >
               <ProjectCard
                 title={project.title}
                 description={project.description}

@@ -35,7 +35,7 @@ export default function ProjectCard({
 }: ProjectCardProps) {
   return (
     <Card
-      className="flex flex-col justify-between bg-cyber-gray border border-gray-700 rounded-lg overflow-hidden shadow-lg transition-all duration-300 hover:shadow-neon-blue/30 hover:scale-[1.02] animate-fade-in-up relative z-50"
+      className="relative z-50 flex h-[34rem] sm:h-[35rem] lg:h-[36rem] flex-col justify-between overflow-hidden rounded-lg border border-gray-700 bg-cyber-gray shadow-lg transition-all duration-300 hover:scale-[1.02] hover:shadow-neon-blue/30 animate-fade-in-up"
       style={{ animationDelay: `${delay}s` }}
     >
       {/* Contenedor de imagen con fondo opaco */}
@@ -55,24 +55,24 @@ export default function ProjectCard({
       </CardHeader>
 
       {/* Contenido y botones (¡TODOS RESTAURADOS!) */}
-      <CardContent className="p-6 flex-grow">
-        <CardTitle className="text-2xl font-bold text-white mb-2 tracking-wide">
+      <CardContent className="flex flex-grow flex-col overflow-hidden p-6">
+        <CardTitle className="mb-3 text-xl font-bold leading-tight tracking-wide text-white lg:text-2xl">
           {title}
         </CardTitle>
-        <CardDescription className="text-gray-400 text-base tracking-normal">
+        <CardDescription className="overflow-hidden text-sm leading-6 tracking-normal text-gray-400 lg:text-base lg:leading-relaxed">
           {description}
         </CardDescription>
       </CardContent>
 
-      <CardFooter className="p-6 pt-0 flex justify-center items-center space-x-4">
+      <CardFooter className="flex min-h-[4.75rem] flex-wrap items-center justify-center gap-2.5 p-4 pt-0 sm:min-h-20 sm:gap-3 sm:p-5 sm:pt-0 lg:min-h-24 lg:gap-4 lg:p-6 lg:pt-0">
         {!isPrivate && githubUrl && (
           <Button
             asChild
             variant="outline"
-            className="inline-flex items-center justify-center bg-transparent border-neon-blue text-neon-blue hover:bg-neon-blue hover:text-black transition-colors duration-300 rounded-full px-4 py-2 tracking-normal"
+            className="inline-flex h-9 items-center justify-center rounded-full border-neon-blue bg-transparent px-3 py-2 text-xs tracking-normal text-neon-blue transition-colors duration-300 hover:bg-neon-blue hover:text-black sm:text-sm lg:h-10 lg:px-4"
           >
             <a href={githubUrl} target="_blank" rel="noopener noreferrer">
-              <Github className="h-4 w-4 mr-2"/> GitHub
+              <Github className="mr-2 h-3.5 w-3.5 lg:h-4 lg:w-4" /> GitHub
             </a>
           </Button>
         )}
@@ -81,19 +81,20 @@ export default function ProjectCard({
           <Button
             disabled
             title="Este repositorio es privado"
-            className="inline-flex items-center justify-center bg-gray-600 text-white cursor-not-allowed opacity-60 rounded-full px-4 py-2 tracking-normal"
+            className="inline-flex h-9 items-center justify-center rounded-full bg-gray-600 px-3 py-2 text-xs tracking-normal text-white opacity-60 sm:text-sm lg:h-10 lg:px-4"
           >
-            <Github className="h-4 w-4 mr-2"/> Privado
+            <Github className="mr-2 h-3.5 w-3.5 lg:h-4 lg:w-4" /> Privado
           </Button>
         )}
 
         {!isPrivate && demoUrl && !demoPrivate && !demoSoon && (
           <Button
             asChild
-            className="inline-flex items-center justify-center bg-neon-blue text-black hover:bg-electric-green transition-colors duration-300 rounded-full px-4 py-2 tracking-normal"
+            className="inline-flex h-9 items-center justify-center rounded-full bg-neon-blue px-3 py-2 text-xs tracking-normal text-black transition-colors duration-300 hover:bg-electric-green sm:text-sm lg:h-10 lg:px-4"
           >
             <a href={demoUrl} target="_blank" rel="noopener noreferrer">
-              <ExternalLink className="h-4 w-4 mr-2"/> Demo en Vivo
+              <ExternalLink className="mr-2 h-3.5 w-3.5 lg:h-4 lg:w-4" /> Demo
+              en Vivo
             </a>
           </Button>
         )}
@@ -102,19 +103,21 @@ export default function ProjectCard({
           <Button
             disabled
             title="Próximamente"
-            className="inline-flex items-center justify-center bg-gray-600 text-white cursor-not-allowed opacity-60 rounded-full px-4 py-2 tracking-normal"
+            className="inline-flex h-9 items-center justify-center rounded-full bg-gray-600 px-3 py-2 text-xs tracking-normal text-white opacity-60 sm:text-sm lg:h-10 lg:px-4"
           >
-            <ExternalLink className="h-4 w-4 mr-2"/> ¡Próximamente!
+            <ExternalLink className="mr-2 h-3.5 w-3.5 lg:h-4 lg:w-4" />{" "}
+            ¡Próximamente!
           </Button>
         )}
 
-        {demoPrivate && (
+        {!demoSoon && demoPrivate && (
           <Button
             disabled
             title="Acceso restringido"
-            className="inline-flex items-center justify-center bg-gray-600 text-white cursor-not-allowed opacity-60 rounded-full px-4 py-2 tracking-normal"
+            className="inline-flex h-9 items-center justify-center rounded-full bg-gray-600 px-3 py-2 text-xs tracking-normal text-white opacity-60 sm:text-sm lg:h-10 lg:px-4"
           >
-            <ExternalLink className="h-4 w-4 mr-2"/> Restringido
+            <ExternalLink className="mr-2 h-3.5 w-3.5 lg:h-4 lg:w-4" />{" "}
+            Restringido
           </Button>
         )}
       </CardFooter>

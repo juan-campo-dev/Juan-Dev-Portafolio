@@ -14,6 +14,7 @@ $FrontendPath = if ($env:JUAN_DEV_FRONTEND_PATH) {
 else {
     "/home/u201159527/domains/app-dev.icu/public_html/juan-dev"
 }
+$SiteUrl = if ($env:JUAN_DEV_FRONTEND_URL) { $env:JUAN_DEV_FRONTEND_URL } else { "https://juan-dev.app-dev.icu" }
 
 $repoRoot = Resolve-Path (Join-Path $PSScriptRoot "..\..")
 $outPath = Join-Path $repoRoot "out"
@@ -21,6 +22,70 @@ $buildScript = Join-Path $PSScriptRoot "build-static.ps1"
 $permissionScript = Join-Path $PSScriptRoot "fix-frontend-permissions.ps1"
 
 Set-Location $repoRoot
+
+function Format-SftpArgument {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Path
+    )
+
+    '"{0}"' -f ($Path -replace '"', '\\"')
+}
+
+function Test-FrontendPublish {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$BaseUrl
+    )
+
+    $headers = @{
+        "Cache-Control" = "no-cache"
+        "Pragma"        = "no-cache"
+    }
+
+    $cacheBust = [Guid]::NewGuid().ToString("n")
+    $homeUrl = "$BaseUrl/?deploy=$cacheBust"
+
+    Write-Host "Validando frontend publicado..." -ForegroundColor Cyan
+
+    try {
+        $homeResponse = Invoke-WebRequest -Uri $homeUrl -Headers $headers -UseBasicParsing
+    }
+    catch {
+        throw "No se pudo cargar la home publicada en $homeUrl. $($_.Exception.Message)"
+    }
+
+    if ([int]$homeResponse.StatusCode -ne 200) {
+        throw "La home publicada respondio con estado $($homeResponse.StatusCode)."
+    }
+
+    $assetPaths = @(
+        [regex]::Matches($homeResponse.Content, '/_next/static/[^"''\\]+') |
+        ForEach-Object { $_.Value } |
+        Sort-Object -Unique
+    )
+
+    if ($assetPaths.Count -eq 0) {
+        throw "La home publicada no contiene referencias a /_next/static; no se pudo validar el build desplegado."
+    }
+
+    foreach ($assetPath in $assetPaths) {
+        $assetUrl = "$BaseUrl$assetPath"
+
+        try {
+            $assetResponse = Invoke-WebRequest -Uri $assetUrl -Headers $headers -UseBasicParsing
+        }
+        catch {
+            throw "Asset no disponible despues del deploy: $assetPath. $($_.Exception.Message)"
+        }
+
+        if ([int]$assetResponse.StatusCode -ne 200) {
+            throw "Asset no disponible despues del deploy: $assetPath respondio con estado $($assetResponse.StatusCode)."
+        }
+    }
+
+    Write-Host "Validacion HTTP correcta: home y $($assetPaths.Count) assets _next responden 200." -ForegroundColor Green
+}
 
 if (!$SkipBuild) {
     & $buildScript
@@ -39,17 +104,56 @@ if (!(Test-Path $htaccessPath)) {
 }
 
 $outPathForSftp = ([string](Resolve-Path $outPath)).Replace("\", "/")
+$outEntries = @(Get-ChildItem -LiteralPath $outPath -Force)
+$orderedDirectories = @(
+    $outEntries |
+    Where-Object { $_.PSIsContainer } |
+    Sort-Object @{ Expression = {
+            if ($_.Name -eq "_next") { 0 }
+            elseif ($_.Name -eq "admin") { 2 }
+            else { 1 }
+        } 
+    }, Name
+)
+$rootAssetFiles = @(
+    $outEntries |
+    Where-Object {
+        -not $_.PSIsContainer -and
+        $_.Extension -ne ".html" -and
+        $_.Name -ne ".htaccess"
+    } |
+    Sort-Object Name
+)
+$rootHtmlFiles = @(
+    $outEntries |
+    Where-Object { -not $_.PSIsContainer -and $_.Extension -eq ".html" } |
+    Sort-Object @{ Expression = { if ($_.Name -eq "index.html") { 1 } else { 0 } } }, Name
+)
+
 $batchLines = @(
     "cd $FrontendPath",
-    "lcd $outPathForSftp",
-    "put -r *",
-    "put .htaccess",
-    "bye"
+    "lcd $outPathForSftp"
 )
+
+foreach ($directory in $orderedDirectories) {
+    $batchLines += "put -r $(Format-SftpArgument $directory.Name)"
+}
+
+foreach ($file in $rootAssetFiles) {
+    $batchLines += "put $(Format-SftpArgument $file.Name)"
+}
+
+foreach ($file in $rootHtmlFiles) {
+    $batchLines += "put $(Format-SftpArgument $file.Name)"
+}
+
+$batchLines += "put $(Format-SftpArgument '.htaccess')"
+$batchLines += "bye"
 
 if ($DryRun) {
     Write-Host "Deploy frontend Hostinger (dry-run)." -ForegroundColor Cyan
     Write-Host "Destino: $SshUser@$SshHost`:$FrontendPath" -ForegroundColor Cyan
+    Write-Host "Validacion HTTP: $SiteUrl" -ForegroundColor Cyan
     Write-Host "Comandos SFTP:" -ForegroundColor Cyan
     $batchLines | ForEach-Object { Write-Host "  $_" }
     Write-Host "Luego ejecutaria: $permissionScript" -ForegroundColor Cyan
@@ -78,4 +182,6 @@ if ($LASTEXITCODE -ne 0) {
     throw "No se pudieron normalizar permisos despues del deploy."
 }
 
-Write-Host "Deploy frontend completo: build, subida y permisos listos." -ForegroundColor Green
+Test-FrontendPublish -BaseUrl $SiteUrl
+
+Write-Host "Deploy frontend completo: build, subida, permisos y validacion listos." -ForegroundColor Green

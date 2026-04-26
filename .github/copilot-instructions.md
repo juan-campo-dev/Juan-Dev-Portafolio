@@ -95,6 +95,8 @@ El frontend ya esta terminado. El trabajo normal debe enfocarse en backend, API,
 5. Ejecuta build/test viable antes de cerrar.
 6. Si se modifica frontend o backend de produccion, preparar commit y deploy segun el flujo acordado.
 7. No borres cambios del usuario ni hagas `git reset --hard`.
+8. En despliegues estaticos de Next.js a Hostinger, sube primero `/_next` y demas assets versionados; publica `index.html`, `404.html`, rutas HTML equivalentes y `.htaccess` al final.
+9. Nunca borres `/_next` antes de subir el nuevo build; los assets hashados deben coexistir para evitar `ChunkLoadError` y 404 durante el cambio de version.
 
 ## Lo Que NO Debes Hacer
 

@@ -318,20 +318,4 @@ export const PROJECTS: Project[] = [
     platforms: ["web"],
     year: 2024,
   },
-
-  // ───────────────────────────── EXPERIMENTALES ─────────────────────────────
-  {
-    slug: "tentaapp",
-    title: "Tentaapp — Experimento Mobile",
-    description:
-      "Aplicación móvil experimental construida como APK para probar flujos de UX y arquitectura cliente-servidor ligera.",
-    images: [img("tentaapp"), img("tentaapp-2")],
-    techs: [<SiJavascript />, <FaNodeJs />],
-    githubPrivate: true,
-    demoPrivate: true,
-    demoSoon: true,
-    category: "experimental",
-    platforms: ["apk"],
-    year: 2024,
-  },
 ];

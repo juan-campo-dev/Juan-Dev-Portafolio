@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Github, Linkedin, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useOverlayFocusState } from "@/components/shared/overlay-focus-provider";
 
 const navLinks = [
   { label: "Proyectos", href: "#projects", id: "projects" },
@@ -27,6 +28,7 @@ export default function FloatingNavbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("hero");
   const [isOpen, setIsOpen] = useState(false);
+  const { isOverlayFocused } = useOverlayFocusState();
   const sectionIds = useMemo(
     () => ["hero", ...navLinks.map((link) => link.id)],
     [],
@@ -81,9 +83,11 @@ export default function FloatingNavbar() {
   return (
     <header
       className={cn(
-        "fixed left-0 right-0 z-[60] pointer-events-none transition-[top,padding] duration-500 ease-out",
+        "fixed left-0 right-0 z-[60] pointer-events-none transition-[top,padding,opacity,filter,transform] duration-500 ease-out",
         isScrolled ? "top-4 px-4" : "top-0 px-0",
+        isOverlayFocused && "-translate-y-6 opacity-0 blur-sm scale-[0.98]",
       )}
+      aria-hidden={isOverlayFocused}
     >
       <nav
         className={cn(
@@ -91,6 +95,7 @@ export default function FloatingNavbar() {
           isScrolled
             ? "max-w-5xl rounded-full border-[#00f0ff]/35 bg-black/80 shadow-2xl shadow-[#00f0ff]/20"
             : "max-w-none rounded-none border-x-0 border-t-0 border-[#00f0ff]/15 bg-black/50 shadow-none",
+          isOverlayFocused && "pointer-events-none",
         )}
       >
         <div
@@ -107,7 +112,6 @@ export default function FloatingNavbar() {
             className="flex min-w-0 items-center gap-3 rounded-full px-2 py-1.5 transition-colors hover:text-neon-blue"
             aria-label="Ir al inicio"
           >
-            <span className="h-3 w-3 shrink-0 rounded-full bg-neon-blue shadow-[0_0_16px_rgba(0,240,255,0.8)]" />
             <span className="truncate text-base font-semibold tracking-normal sm:text-lg">
               Juan Campo
             </span>

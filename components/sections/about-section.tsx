@@ -25,11 +25,16 @@ const techStack: { category: string; items: TechItem[] }[] = [
         img: `${CDN}/nextjs/nextjs-original.svg`,
         invert: true,
       },
+      { name: "Vue.js", img: `${CDN}/vuejs/vuejs-original.svg` },
+      { name: "Angular", img: `${CDN}/angular/angular-original.svg` },
       {
         name: "Tailwind CSS",
         img: `${CDN}/tailwindcss/tailwindcss-original.svg`,
       },
+      { name: "Bootstrap", img: `${CDN}/bootstrap/bootstrap-original.svg` },
       { name: "Material UI", img: `${CDN}/materialui/materialui-original.svg` },
+      { name: "jQuery", img: `${CDN}/jquery/jquery-original.svg` },
+      { name: "Sass", img: `${CDN}/sass/sass-original.svg` },
     ],
   },
   {
@@ -37,53 +42,107 @@ const techStack: { category: string; items: TechItem[] }[] = [
     items: [
       { name: "PHP", img: `${CDN}/php/php-original.svg` },
       { name: "Laravel", img: `${CDN}/laravel/laravel-original.svg` },
+      {
+        name: "Symfony",
+        img: `${CDN}/symfony/symfony-original.svg`,
+        invert: true,
+      },
       { name: "Python", img: `${CDN}/python/python-original.svg` },
       { name: "FastAPI", img: `${CDN}/fastapi/fastapi-original.svg` },
       { name: "Flask", img: `${CDN}/flask/flask-original.svg`, invert: true },
+      { name: "Django", img: `${CDN}/django/django-plain.svg` },
       { name: "Node.js", img: `${CDN}/nodejs/nodejs-original.svg` },
       {
         name: "Express",
         img: `${CDN}/express/express-original.svg`,
         invert: true,
       },
+      { name: "NestJS", img: `${CDN}/nestjs/nestjs-original.svg` },
       { name: "Java", img: `${CDN}/java/java-original.svg` },
+      { name: "Spring", img: `${CDN}/spring/spring-original.svg` },
+      { name: ".NET", img: `${CDN}/dot-net/dot-net-original.svg` },
+      { name: "C#", img: `${CDN}/csharp/csharp-original.svg` },
     ],
   },
   {
-    category: "Database & Cloud",
+    category: "Bases de Datos",
     items: [
       { name: "MySQL", img: `${CDN}/mysql/mysql-original.svg` },
       { name: "PostgreSQL", img: `${CDN}/postgresql/postgresql-original.svg` },
-      { name: "MongoDB", img: `${CDN}/mongodb/mongodb-original.svg` },
-      { name: "Firebase", img: `${CDN}/firebase/firebase-original.svg` },
+      { name: "Oracle", img: `${CDN}/oracle/oracle-original.svg` },
       {
         name: "SQL Server",
         img: `${CDN}/microsoftsqlserver/microsoftsqlserver-plain.svg`,
         invert: true,
       },
+      { name: "MongoDB", img: `${CDN}/mongodb/mongodb-original.svg` },
+      { name: "Redis", img: `${CDN}/redis/redis-original.svg` },
+      { name: "Firebase", img: `${CDN}/firebase/firebase-original.svg` },
+      { name: "SQLite", img: `${CDN}/sqlite/sqlite-original.svg` },
     ],
   },
   {
-    category: "Tools & DevOps",
+    category: "Cloud & DevOps",
+    items: [
+      {
+        name: "AWS",
+        img: `${CDN}/amazonwebservices/amazonwebservices-plain-wordmark.svg`,
+      },
+      { name: "Azure", img: `${CDN}/azure/azure-original.svg` },
+      {
+        name: "Google Cloud",
+        img: `${CDN}/googlecloud/googlecloud-original.svg`,
+      },
+      { name: "Docker", img: `${CDN}/docker/docker-original.svg` },
+      { name: "Kubernetes", img: `${CDN}/kubernetes/kubernetes-plain.svg` },
+      { name: "Linux", img: `${CDN}/linux/linux-original.svg` },
+      { name: "Nginx", img: `${CDN}/nginx/nginx-original.svg` },
+      {
+        name: "GitHub Actions",
+        img: `${CDN}/githubactions/githubactions-original.svg`,
+      },
+      { name: "GitLab CI", img: `${CDN}/gitlab/gitlab-original.svg` },
+    ],
+  },
+  {
+    category: "Mobile",
+    items: [
+      {
+        name: "React Native",
+        img: `${CDN}/react/react-original.svg`,
+      },
+      { name: "Flutter", img: `${CDN}/flutter/flutter-original.svg` },
+      { name: "PWA", img: "/pwa.png" },
+      { name: "Electron", img: `${CDN}/electron/electron-original.svg` },
+    ],
+  },
+  {
+    category: "Herramientas",
     items: [
       { name: "Git", img: `${CDN}/git/git-original.svg` },
-      { name: "Docker", img: `${CDN}/docker/docker-original.svg` },
-      { name: "Figma", img: `${CDN}/figma/figma-original.svg` },
-      { name: "Illustrator", img: `${CDN}/illustrator/illustrator-plain.svg` },
-      { name: "VS Code", img: `${CDN}/vscode/vscode-original.svg` },
       {
         name: "GitHub",
         img: `${CDN}/github/github-original.svg`,
         invert: true,
       },
+      { name: "VS Code", img: `${CDN}/vscode/vscode-original.svg` },
+      { name: "Figma", img: `${CDN}/figma/figma-original.svg` },
+      {
+        name: "Illustrator",
+        img: `${CDN}/illustrator/illustrator-original.svg`,
+      },
+      { name: "Photoshop", img: `${CDN}/photoshop/photoshop-original.svg` },
+      { name: "Postman", img: `${CDN}/postman/postman-original.svg` },
+      { name: "Composer", img: `${CDN}/composer/composer-original.svg` },
+      { name: "npm", img: `${CDN}/npm/npm-original.svg` },
     ],
   },
   {
-    category: "AI & Generative",
+    category: "IA & Generativa",
     items: [
       {
         name: "Claude",
-        img: "https://upload.wikimedia.org/wikipedia/commons/8/8a/Claude_AI_logo.svg",
+        img: "/claude-color.svg",
       },
       {
         name: "GitHub Copilot",
@@ -93,6 +152,15 @@ const techStack: { category: string; items: TechItem[] }[] = [
       {
         name: "OpenAI / GPT",
         img: "https://upload.wikimedia.org/wikipedia/commons/0/04/ChatGPT_logo.svg",
+      },
+      {
+        name: "Gemini",
+        img: "/gemini-color.svg",
+      },
+      {
+        name: "Cursor",
+        img: "/cursor.svg",
+        invert: true,
       },
     ],
   },
@@ -164,7 +232,7 @@ export default function AboutSection() {
             className="text-gray-500 text-center mb-10 animate-fade-in-up"
             style={{ animationDelay: "0.7s" }}
           >
-            Technologies I work with daily
+            Tecnologías y herramientas con las que trabajo
           </p>
 
           <div className="space-y-10">
@@ -181,7 +249,7 @@ export default function AboutSection() {
                   {group.items.map((tech) => (
                     <div
                       key={tech.name}
-                      className="group relative flex flex-col items-center gap-2 px-4 py-3 rounded-xl border border-white/10 bg-white/5 transition-all duration-300 hover:scale-105 hover:-translate-y-1 hover:bg-white/10 hover:border-white/20 cursor-default min-w-[80px]"
+                      className="group relative flex flex-col items-center gap-2 px-4 py-3 rounded-lg border border-gray-700 bg-cyber-gray shadow-lg transition-all duration-300 hover:scale-105 hover:-translate-y-1 hover:shadow-neon-blue/30 cursor-default min-w-[80px]"
                     >
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
@@ -197,7 +265,7 @@ export default function AboutSection() {
                       </span>
                       {/* Hover glow */}
                       <div
-                        className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                        className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
                         style={{
                           boxShadow:
                             "0 0 25px rgba(0, 240, 255, 0.15), inset 0 0 25px rgba(0, 240, 255, 0.05)",
@@ -221,17 +289,8 @@ export default function AboutSection() {
               asChild
               className="inline-flex items-center justify-center bg-neon-blue text-black hover:bg-electric-green transition-all duration-300 rounded-full px-6 py-3 text-base font-semibold shadow-lg hover:shadow-neon-blue/50 tracking-normal"
             >
-              <a href="/cv/cv.pdf" download="Juan_Campo_CV.pdf">
-                <Download className="mr-2 h-4 w-4" /> CV Profesional
-              </a>
-            </Button>
-            <Button
-              asChild
-              variant="outline"
-              className="inline-flex items-center justify-center bg-transparent border-neon-blue text-neon-blue hover:bg-neon-blue hover:text-black transition-all duration-300 rounded-full px-6 py-3 text-base font-semibold shadow-lg hover:shadow-neon-blue/50 tracking-normal"
-            >
-              <a href="/cv/cv-sena.pdf" download="Juan_Campo_CV_SENA.pdf">
-                <Download className="mr-2 h-4 w-4" /> CV SENA
+              <a href="/cv/Cv_Juan.pdf" download="Cv_Juan.pdf">
+                <Download className="mr-2 h-4 w-4" /> Descargar Hoja de Vida
               </a>
             </Button>
             <Button

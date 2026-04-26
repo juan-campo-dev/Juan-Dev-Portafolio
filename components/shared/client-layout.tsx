@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import ChatBot from "@/components/chatbot";
 import FloatingNavbar from "@/components/shared/floating-navbar";
+import { OverlayFocusProvider } from "@/components/shared/overlay-focus-provider";
 
 export default function ClientLayout({
   children,
@@ -37,10 +38,10 @@ export default function ClientLayout({
   }, []);
 
   return (
-    <>
+    <OverlayFocusProvider>
       {!isAdmin && <FloatingNavbar />}
       {children}
       {!isAdmin && <ChatBot />}
-    </>
+    </OverlayFocusProvider>
   );
 }

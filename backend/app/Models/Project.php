@@ -6,6 +6,28 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @property int $id
+ * @property string $slug
+ * @property string $title
+ * @property string|null $description
+ * @property string|null $category
+ * @property string|null $client
+ * @property array|null $technologies
+ * @property array|null $platforms
+ * @property array|null $images
+ * @property string|null $github_url
+ * @property bool $github_private
+ * @property string|null $demo_url
+ * @property bool $demo_private
+ * @property bool $demo_soon
+ * @property bool $featured
+ * @property string $status
+ * @property string|null $year
+ * @property int $sort_order
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ */
 class Project extends Model
 {
     use HasFactory;

@@ -1,32 +1,36 @@
-"use client"
+"use client";
 
-import { useState, useRef } from "react"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { Form as UIForm } from "@/components/ui/form"
-import { Button } from "@/components/ui/button"
-import { ImageIcon, SlidersHorizontal, ArrowUp } from "lucide-react"
-import AutoResizeTextarea from "./auto-resize-textarea"
-import ImageUploadArea from "./image-upload-area"
-import { formSchema, PartialFormValues } from "@/lib/form-schema"
-import { useMediaQuery } from "@/hooks/use-media-query"
-import { cn } from "@/lib/utils"
+import { useState, useRef } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { Form as UIForm } from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
+import { ImageIcon, SlidersHorizontal, ArrowUp } from "lucide-react";
+import AutoResizeTextarea from "./auto-resize-textarea";
+import ImageUploadArea from "./image-upload-area";
+import { formSchema, PartialFormValues } from "@/lib/form-schema";
+import { useMediaQuery } from "@/hooks/use-media-query";
+import { cn } from "@/lib/utils";
 
 interface FormProps {
-  isLoading: boolean
-  onSubmit: (values: PartialFormValues) => Promise<void>
-  onOpenOptions: () => void
+  isLoading: boolean;
+  onSubmit: (values: PartialFormValues) => Promise<void>;
+  onOpenOptions: () => void;
 }
 
-export default function Form({ isLoading, onSubmit, onOpenOptions }: FormProps) {
-  const [previewUrls, setPreviewUrls] = useState<string[]>([])
-  const [isDragging, setIsDragging] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-  const [isFocused, setIsFocused] = useState(false)
-  const fileInputRef = useRef<HTMLInputElement>(null)
-  const formRef = useRef<HTMLFormElement>(null)
-  const dragCounter = useRef(0)
-  const isMobile = useMediaQuery("(max-width: 768px)")
+export default function Form({
+  isLoading,
+  onSubmit,
+  onOpenOptions,
+}: FormProps) {
+  const [previewUrls, setPreviewUrls] = useState<string[]>([]);
+  const [isDragging, setIsDragging] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [isFocused, setIsFocused] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+  const dragCounter = useRef(0);
+  const isMobile = useMediaQuery("(max-width: 768px)");
 
   const form = useForm<PartialFormValues>({
     resolver: zodResolver(formSchema),
@@ -41,108 +45,118 @@ export default function Form({ isLoading, onSubmit, onOpenOptions }: FormProps) 
       TAPose: false,
       material: "PBR",
     },
-  })
+  });
 
   function handleSubmitWrapper(values: PartialFormValues) {
-    return onSubmit(values)
+    return onSubmit(values);
   }
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(e.target.files || [])
-    addImages(files)
-  }
+    const files = Array.from(e.target.files || []);
+    addImages(files);
+  };
 
   const addImages = (files: File[]) => {
-    if (files.length === 0) return
+    if (files.length === 0) return;
 
-    const currentImages = form.getValues("images") || []
-    const totalImages = currentImages.length + files.length
+    const currentImages = form.getValues("images") || [];
+    const totalImages = currentImages.length + files.length;
 
     if (totalImages > 5) {
-      setError("Puedes subir un máximo de 5 imágenes")
-      files = files.slice(0, 5 - currentImages.length)
-      if (files.length === 0) return
+      setError("Puedes subir un máximo de 5 imágenes");
+      files = files.slice(0, 5 - currentImages.length);
+      if (files.length === 0) return;
     }
 
-    const newPreviewUrls = files.map((file) => URL.createObjectURL(file))
-    const updatedImages = [...currentImages, ...files]
+    const newPreviewUrls = files.map((file) => URL.createObjectURL(file));
+    const updatedImages = [...currentImages, ...files];
 
-    setPreviewUrls([...previewUrls, ...newPreviewUrls])
-    form.setValue("images", updatedImages)
-  }
+    setPreviewUrls([...previewUrls, ...newPreviewUrls]);
+    form.setValue("images", updatedImages);
+  };
 
   const removeImage = (index: number) => {
-    const currentImages = form.getValues("images") || []
-    const newImages = [...currentImages]
-    newImages.splice(index, 1)
+    const currentImages = form.getValues("images") || [];
+    const newImages = [...currentImages];
+    newImages.splice(index, 1);
 
-    const newPreviewUrls = [...previewUrls]
-    URL.revokeObjectURL(newPreviewUrls[index])
-    newPreviewUrls.splice(index, 1)
+    const newPreviewUrls = [...previewUrls];
+    URL.revokeObjectURL(newPreviewUrls[index]);
+    newPreviewUrls.splice(index, 1);
 
-    setPreviewUrls(newPreviewUrls)
-    form.setValue("images", newImages)
-  }
+    setPreviewUrls(newPreviewUrls);
+    form.setValue("images", newImages);
+  };
 
   const triggerFileInput = () => {
-    fileInputRef.current?.click()
-  }
+    fileInputRef.current?.click();
+  };
 
   const handleDragEnter = (e: React.DragEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
-    dragCounter.current += 1
-    setIsDragging(true)
-  }
+    e.preventDefault();
+    e.stopPropagation();
+    dragCounter.current += 1;
+    setIsDragging(true);
+  };
 
   const handleDragLeave = (e: React.DragEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
-    dragCounter.current -= 1
+    e.preventDefault();
+    e.stopPropagation();
+    dragCounter.current -= 1;
     if (dragCounter.current === 0) {
-      setIsDragging(false)
+      setIsDragging(false);
     }
-  }
+  };
 
   const handleDragOver = (e: React.DragEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
-  }
+    e.preventDefault();
+    e.stopPropagation();
+  };
 
   const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
-    dragCounter.current = 0
-    setIsDragging(false)
+    e.preventDefault();
+    e.stopPropagation();
+    dragCounter.current = 0;
+    setIsDragging(false);
 
     if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-      const files = Array.from(e.dataTransfer.files).filter((file) => file.type.startsWith("image/"))
-      addImages(files)
+      const files = Array.from(e.dataTransfer.files).filter((file) =>
+        file.type.startsWith("image/"),
+      );
+      addImages(files);
     }
-  }
+  };
 
   const handleFocus = () => {
-    setIsFocused(true)
-  }
+    setIsFocused(true);
+  };
 
   const handleBlur = () => {
-    setIsFocused(false)
-  }
+    setIsFocused(false);
+  };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !isMobile && !e.shiftKey) {
-      e.preventDefault()
-      formRef.current?.requestSubmit()
+      e.preventDefault();
+      formRef.current?.requestSubmit();
     }
-  }
+  };
 
   return (
     <UIForm {...form}>
-      <form ref={formRef} onSubmit={form.handleSubmit(handleSubmitWrapper)} className="relative">
+      <form
+        ref={formRef}
+        onSubmit={form.handleSubmit(handleSubmitWrapper)}
+        className="relative"
+      >
         <div
           className={cn(
             "relative bg-black/60 backdrop-blur-md rounded-[24px] overflow-hidden transition-all shadow-lg border border-[rgba(255,255,255,0.12)]",
-            isDragging ? "ring-2 ring-neon-blue" : isFocused ? "ring-2 ring-neon-blue" : "",
+            isDragging
+              ? "ring-2 ring-neon-blue"
+              : isFocused
+                ? "ring-2 ring-neon-blue"
+                : "",
             isLoading && "animate-pulse-loading pointer-events-none opacity-70",
           )}
           onDragEnter={handleDragEnter}
@@ -150,7 +164,11 @@ export default function Form({ isLoading, onSubmit, onOpenOptions }: FormProps) 
           onDragOver={handleDragOver}
           onDrop={handleDrop}
         >
-          <ImageUploadArea previewUrls={previewUrls} onRemoveImage={removeImage} isLoading={isLoading} />
+          <ImageUploadArea
+            previewUrls={previewUrls}
+            onRemoveImage={removeImage}
+            isLoading={isLoading}
+          />
 
           <div className="px-2 py-1.5 flex items-center">
             <div className="flex space-x-0">
@@ -163,10 +181,23 @@ export default function Form({ isLoading, onSubmit, onOpenOptions }: FormProps) 
                 className="hidden"
                 disabled={isLoading}
               />
-              <Button type="button" onClick={triggerFileInput} variant="ghost" size="icon" disabled={isLoading}>
+              <Button
+                type="button"
+                onClick={triggerFileInput}
+                variant="ghost"
+                size="icon"
+                disabled={isLoading}
+              >
                 <ImageIcon className="h-5 w-5" />
               </Button>
-              <Button type="button" onClick={onOpenOptions} variant="ghost" size="icon" disabled={isLoading}>
+              <Button
+                type="button"
+                onClick={onOpenOptions}
+                variant="ghost"
+                size="icon"
+                disabled={isLoading}
+                aria-label="Abrir opciones de generación"
+              >
                 <SlidersHorizontal className="h-5 w-5" />
               </Button>
             </div>
@@ -192,13 +223,19 @@ export default function Form({ isLoading, onSubmit, onOpenOptions }: FormProps) 
 
           {isDragging && (
             <div className="absolute inset-0 bg-black/80 flex items-center justify-center pointer-events-none z-10">
-              <p className="text-white font-medium tracking-normal text-lg">Suelta las imágenes aquí</p>
+              <p className="text-white font-medium tracking-normal text-lg">
+                Suelta las imágenes aquí
+              </p>
             </div>
           )}
         </div>
 
-        {error && <div className="mt-2 text-red-400 text-sm tracking-normal">{error}</div>}
+        {error && (
+          <div className="mt-2 text-red-400 text-sm tracking-normal">
+            {error}
+          </div>
+        )}
       </form>
     </UIForm>
-  )
+  );
 }
