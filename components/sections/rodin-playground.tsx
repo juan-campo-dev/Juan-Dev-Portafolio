@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
 import { ExternalLink, Download, ArrowLeft } from "lucide-react";
 import type { PartialFormValues } from "@/lib/form-schema";
 import {
@@ -8,13 +9,21 @@ import {
   checkJobStatus,
   downloadModel,
 } from "@/lib/api-service";
-import ModelViewer from "@/components/model-viewer";
 import Form from "@/components/form";
 import StatusIndicator from "@/components/status-indicator";
 import OptionsDialog from "@/components/options-dialog";
 import { Button } from "@/components/ui/button";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import SectionHeading from "@/components/shared/section-heading";
+
+// Three.js + react-three-fiber + drei pesan ~150KB. Los cargamos solo cuando
+// el laboratorio se monta en el cliente.
+const ModelViewer = dynamic(() => import("@/components/model-viewer"), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-full bg-black bg-radial-gradient" aria-hidden />
+  ),
+});
 
 export default function RodinPlayground() {
   const [isLoading, setIsLoading] = useState(false);
@@ -74,7 +83,7 @@ export default function RodinPlayground() {
       // Check status of all jobs
       const allJobsDone = data.jobs.every((job: any) => job.status === "Done");
       const anyJobFailed = data.jobs.some(
-        (job: any) => job.status === "Failed"
+        (job: any) => job.status === "Failed",
       );
 
       if (allJobsDone) {
@@ -93,12 +102,12 @@ export default function RodinPlayground() {
           // Find the first GLB file to display in the 3D viewer
           if (downloadData.list && downloadData.list.length > 0) {
             const glbFile = downloadData.list.find((file: { name: string }) =>
-              file.name.toLowerCase().endsWith(".glb")
+              file.name.toLowerCase().endsWith(".glb"),
             );
 
             if (glbFile) {
               const proxyUrl = `/api/proxy-download?url=${encodeURIComponent(
-                glbFile.url
+                glbFile.url,
               )}`;
               setModelUrl(proxyUrl);
               setDownloadUrl(glbFile.url);
@@ -118,7 +127,7 @@ export default function RodinPlayground() {
               downloadErr instanceof Error
                 ? downloadErr.message
                 : "Error desconocido"
-            }`
+            }`,
           );
           setIsLoading(false);
         }
@@ -132,7 +141,7 @@ export default function RodinPlayground() {
       }
     } catch (err) {
       setError(
-        err instanceof Error ? err.message : "Fallo al verificar el estado"
+        err instanceof Error ? err.message : "Fallo al verificar el estado",
       );
       setIsPolling(false);
       setIsLoading(false);
@@ -182,7 +191,7 @@ export default function RodinPlayground() {
       }
     } catch (err) {
       setError(
-        err instanceof Error ? err.message : "Ocurrió un error desconocido"
+        err instanceof Error ? err.message : "Ocurrió un error desconocido",
       );
       setIsLoading(false);
     }

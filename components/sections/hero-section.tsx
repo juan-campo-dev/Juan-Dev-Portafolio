@@ -265,7 +265,7 @@ export default function HeroSection() {
                 title={item.name}
               >
                 <div
-                  className={`w-full h-full ${item.anim}`}
+                  className={`w-full h-full will-change-transform ${item.anim}`}
                   style={{ animationDelay: item.delay }}
                 >
                   <div className="w-full h-full flex items-center justify-center transition-transform duration-300 hover:scale-110">

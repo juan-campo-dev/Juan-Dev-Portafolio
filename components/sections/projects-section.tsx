@@ -1,11 +1,16 @@
 import SectionHeading from "@/components/shared/section-heading";
 import ProjectCard from "@/components/shared/project-card";
-import ProjectModal from "@/components/project-modal";
 import { PROJECTS, type Project } from "@/components/projects-data";
 import { apiFetchOrFallback } from "@/lib/api-client";
 import { getTechIcons } from "@/lib/tech-icons";
 import { trackProjectView } from "@/lib/tracking";
 import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
+
+// Swiper + Radix Dialog del modal solo se cargan cuando el usuario abre uno.
+const ProjectModal = dynamic(() => import("@/components/project-modal"), {
+  ssr: false,
+});
 
 interface ApiProject extends Omit<Project, "techs"> {
   technologies?: string[];

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Github, Linkedin, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useOverlayFocusState } from "@/components/shared/overlay-focus-provider";
@@ -24,25 +24,38 @@ const socialLinks = [
   },
 ];
 
+const sectionIds = ["hero", ...navLinks.map((link) => link.id)];
+
 export default function FloatingNavbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("hero");
   const [isOpen, setIsOpen] = useState(false);
   const { isOverlayFocused } = useOverlayFocusState();
-  const sectionIds = useMemo(
-    () => ["hero", ...navLinks.map((link) => link.id)],
-    [],
-  );
+  const isScrolledRef = useRef(false);
 
   useEffect(() => {
-    const onScroll = () => {
+    let frame = 0;
+    let pending = false;
+    const evaluate = () => {
+      pending = false;
       const scrollY = window.scrollY;
-      setIsScrolled((current) => (current ? scrollY > 10 : scrollY > 72));
+      const next = isScrolledRef.current ? scrollY > 10 : scrollY > 72;
+      if (next !== isScrolledRef.current) {
+        isScrolledRef.current = next;
+        setIsScrolled(next);
+      }
     };
-
-    onScroll();
+    const onScroll = () => {
+      if (pending) return;
+      pending = true;
+      frame = window.requestAnimationFrame(evaluate);
+    };
+    evaluate();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
   }, []);
 
   useEffect(() => {
@@ -65,7 +78,7 @@ export default function FloatingNavbar() {
     });
 
     return () => observer.disconnect();
-  }, [sectionIds]);
+  }, []);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -91,7 +104,7 @@ export default function FloatingNavbar() {
     >
       <nav
         className={cn(
-          "pointer-events-auto mx-auto border text-white backdrop-blur-xl transition-[max-width,border-radius,background-color,border-color,box-shadow] duration-500 ease-out",
+          "pointer-events-auto mx-auto border text-white backdrop-blur-md transition-[max-width,border-radius,background-color,border-color,box-shadow] duration-500 ease-out",
           isScrolled
             ? "max-w-5xl rounded-full border-[#00f0ff]/35 bg-black/80 shadow-2xl shadow-[#00f0ff]/20"
             : "max-w-none rounded-none border-x-0 border-t-0 border-[#00f0ff]/15 bg-black/50 shadow-none",
@@ -166,7 +179,7 @@ export default function FloatingNavbar() {
           role="dialog"
           aria-label="Menú de navegación"
           className={cn(
-            "pointer-events-auto fixed right-4 z-[70] w-[min(18rem,calc(100vw-2rem))] rounded-2xl border border-[#00f0ff]/25 bg-black/90 p-3 text-white shadow-2xl shadow-[#00f0ff]/20 backdrop-blur-xl md:hidden",
+            "pointer-events-auto fixed right-4 z-[70] w-[min(18rem,calc(100vw-2rem))] rounded-2xl border border-[#00f0ff]/25 bg-black/90 p-3 text-white shadow-2xl shadow-[#00f0ff]/20 backdrop-blur-md md:hidden",
             isScrolled ? "top-24" : "top-[5.25rem]",
           )}
         >

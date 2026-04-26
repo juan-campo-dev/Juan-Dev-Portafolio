@@ -1,10 +1,16 @@
 "use client";
 
 import { useEffect } from "react";
+import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
-import ChatBot from "@/components/chatbot";
 import FloatingNavbar from "@/components/shared/floating-navbar";
 import { OverlayFocusProvider } from "@/components/shared/overlay-focus-provider";
+
+// ChatBot se carga después del primer paint para no bloquear LCP / hidratación.
+const ChatBot = dynamic(() => import("@/components/chatbot"), {
+  ssr: false,
+  loading: () => null,
+});
 
 export default function ClientLayout({
   children,
@@ -15,26 +21,12 @@ export default function ClientLayout({
   const isAdmin = pathname?.startsWith("/admin");
 
   useEffect(() => {
-    // Forzar scroll cuando el componente se monte
+    // Garantizar scroll habilitado al montar (una sola vez, sin polling).
     document.documentElement.style.overflow = "auto";
     document.documentElement.style.height = "auto";
     document.body.style.overflow = "auto";
     document.body.style.height = "auto";
     document.body.style.position = "relative";
-
-    // Asegurarse de que el scroll esté habilitado
-    const enableScroll = () => {
-      document.documentElement.style.overflow = "auto";
-      document.body.style.overflow = "auto";
-    };
-
-    // Habilitar scroll cada 100ms por un segundo para asegurar
-    const interval = setInterval(enableScroll, 100);
-    setTimeout(() => clearInterval(interval), 1000);
-
-    return () => {
-      clearInterval(interval);
-    };
   }, []);
 
   return (

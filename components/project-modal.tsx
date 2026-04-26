@@ -91,7 +91,7 @@ const ProjectModal: React.FC<ProjectModalProps> = React.memo(
         <div className={overlaySurface.backdrop} />
         <div className="relative z-10 w-full max-w-7xl max-h-[95vh] overflow-y-auto rounded-2xl">
           <div className={overlaySurface.glow}>
-            <div className="h-full w-full rounded-2xl bg-black/90 backdrop-blur-xl" />
+            <div className="h-full w-full rounded-2xl bg-black/90 backdrop-blur-md" />
           </div>
           <div className={cn("relative min-h-fit", overlaySurface.panel)}>
             {/* Header */}

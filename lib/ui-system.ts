@@ -6,7 +6,7 @@ export const overlaySurface = {
   glow:
     "pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-r from-[#00f0ff] via-[#0080ff] to-[#00f0ff] p-[1px] opacity-70 animate-pulse-glow",
   panel:
-    "relative overflow-hidden rounded-2xl border border-[#00f0ff]/20 bg-black/85 text-white shadow-2xl backdrop-blur-xl",
+    "relative overflow-hidden rounded-2xl border border-[#00f0ff]/20 bg-black/85 text-white shadow-2xl backdrop-blur-md",
   header:
     "flex items-center justify-between border-b border-[#00f0ff]/20 bg-gradient-to-r from-[#00f0ff]/10 via-transparent to-[#00f0ff]/10",
   section:
@@ -21,7 +21,7 @@ export const chatbotSurface = {
   trigger:
     "h-14 w-14 rounded-full border border-[#00f0ff]/30 bg-neon-blue text-black shadow-lg shadow-[#00f0ff]/20 transition-all duration-300 hover:scale-105 hover:bg-electric-green hover:shadow-neon-blue/40",
   panel:
-    "flex h-[500px] w-80 flex-col overflow-hidden rounded-2xl border border-[#00f0ff]/20 bg-black/85 text-white shadow-2xl shadow-[#00f0ff]/10 backdrop-blur-xl md:w-96",
+    "flex h-[500px] w-80 flex-col overflow-hidden rounded-2xl border border-[#00f0ff]/20 bg-black/85 text-white shadow-2xl shadow-[#00f0ff]/10 backdrop-blur-md md:w-96",
   header:
     "flex h-14 items-center justify-between border-b border-[#00f0ff]/20 bg-gradient-to-r from-[#00f0ff]/10 via-transparent to-[#00f0ff]/10 px-4",
   botAvatar:

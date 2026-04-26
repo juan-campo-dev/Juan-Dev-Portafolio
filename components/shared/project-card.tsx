@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { memo } from "react";
 import { Github, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -22,7 +23,7 @@ interface ProjectCardProps {
   demoSoon?: boolean;
 }
 
-export default function ProjectCard({
+export default memo(function ProjectCard({
   title,
   description,
   imageUrl,
@@ -35,7 +36,7 @@ export default function ProjectCard({
 }: ProjectCardProps) {
   return (
     <Card
-      className="relative z-50 flex h-[34rem] sm:h-[35rem] lg:h-[36rem] flex-col justify-between overflow-hidden rounded-lg border border-gray-700 bg-cyber-gray shadow-lg transition-all duration-300 hover:scale-[1.02] hover:shadow-neon-blue/30 animate-fade-in-up"
+      className="relative z-50 flex h-[34rem] sm:h-[35rem] lg:h-[36rem] flex-col justify-between overflow-hidden rounded-lg border border-gray-700 bg-cyber-gray shadow-lg transition-[transform,box-shadow] duration-300 will-change-transform hover:scale-[1.02] hover:shadow-neon-blue/30 animate-fade-in-up"
       style={{ animationDelay: `${delay}s` }}
     >
       {/* Contenedor de imagen con fondo opaco */}
@@ -123,4 +124,4 @@ export default function ProjectCard({
       </CardFooter>
     </Card>
   );
-}
+});

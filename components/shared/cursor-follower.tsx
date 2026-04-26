@@ -1,44 +1,70 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { motion } from "framer-motion"
+import { memo, useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 
 const CursorFollower = () => {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const updateMousePosition = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY })
-    }
+    if (typeof window === "undefined") return;
+    let frame = 0;
+    let nextX = 0;
+    let nextY = 0;
+    let scheduled = false;
 
-    window.addEventListener("mousemove", updateMousePosition)
+    const apply = () => {
+      scheduled = false;
+      const node = ref.current;
+      if (!node) return;
+      // Usamos transform (compositeado en GPU) en lugar de top/left para no
+      // disparar layout/paint en cada frame.
+      node.style.transform = `translate3d(${nextX}px, ${nextY}px, 0)`;
+    };
+
+    const onMove = (e: MouseEvent) => {
+      nextX = e.clientX;
+      nextY = e.clientY;
+      if (!scheduled) {
+        scheduled = true;
+        frame = window.requestAnimationFrame(apply);
+      }
+    };
+
+    window.addEventListener("mousemove", onMove, { passive: true });
 
     return () => {
-      window.removeEventListener("mousemove", updateMousePosition)
-    }
-  }, [])
+      window.removeEventListener("mousemove", onMove);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
+  }, []);
 
   return (
-    <motion.div
-      className="fixed z-[9999] pointer-events-none rounded-full bg-neon-blue opacity-70 mix-blend-screen"
-      style={{
-        left: mousePosition.x,
-        top: mousePosition.y,
-        width: "20px",
-        height: "20px",
-        transform: "translate(-50%, -50%)",
-      }}
-      animate={{
-        scale: [1, 1.2, 1],
-        opacity: [0.7, 1, 0.7],
-      }}
-      transition={{
-        duration: 1.5,
-        repeat: Number.POSITIVE_INFINITY,
-        ease: "easeInOut",
-      }}
-    />
-  )
-}
+    <div
+      ref={ref}
+      className="fixed left-0 top-0 z-[9999] pointer-events-none will-change-transform"
+      style={{ transform: "translate3d(-100px,-100px,0)" }}
+    >
+      <motion.div
+        className="rounded-full bg-neon-blue opacity-70 mix-blend-screen will-change-transform"
+        style={{
+          width: "20px",
+          height: "20px",
+          marginLeft: "-10px",
+          marginTop: "-10px",
+        }}
+        animate={{
+          scale: [1, 1.2, 1],
+          opacity: [0.7, 1, 0.7],
+        }}
+        transition={{
+          duration: 1.5,
+          repeat: Number.POSITIVE_INFINITY,
+          ease: "easeInOut",
+        }}
+      />
+    </div>
+  );
+};
 
-export default CursorFollower
+export default memo(CursorFollower);

@@ -6,16 +6,26 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 
-interface OverlayFocusContextValue {
+interface OverlayFocusStateValue {
   isOverlayFocused: boolean;
+}
+
+interface OverlayFocusActionsValue {
   setOverlayFocus: (id: string, open: boolean) => void;
 }
 
-const OverlayFocusContext = createContext<OverlayFocusContextValue>({
+const OverlayFocusStateContext = createContext<OverlayFocusStateValue>({
   isOverlayFocused: false,
+});
+
+// Acciones en un context separado: la referencia es estable, así que los
+// componentes que solo registran su estado (modales, dialogs) no se
+// re-renderizan al abrir/cerrar otros overlays.
+const OverlayFocusActionsContext = createContext<OverlayFocusActionsValue>({
   setOverlayFocus: () => undefined,
 });
 
@@ -24,45 +34,35 @@ export function OverlayFocusProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [openOverlayIds, setOpenOverlayIds] = useState<Set<string>>(
-    () => new Set(),
-  );
+  const [isOverlayFocused, setIsOverlayFocused] = useState(false);
+  const openIdsRef = useRef<Set<string>>(new Set());
 
   const setOverlayFocus = useCallback((id: string, open: boolean) => {
-    setOpenOverlayIds((current) => {
-      const next = new Set(current);
-
-      if (open) {
-        next.add(id);
-      } else {
-        next.delete(id);
-      }
-
-      return next;
-    });
+    const set = openIdsRef.current;
+    if (open) set.add(id);
+    else set.delete(id);
+    const next = set.size > 0;
+    setIsOverlayFocused((current) => (current === next ? current : next));
   }, []);
 
-  const value = useMemo(
-    () => ({
-      isOverlayFocused: openOverlayIds.size > 0,
-      setOverlayFocus,
-    }),
-    [openOverlayIds.size, setOverlayFocus],
-  );
+  const stateValue = useMemo(() => ({ isOverlayFocused }), [isOverlayFocused]);
+  const actionsValue = useMemo(() => ({ setOverlayFocus }), [setOverlayFocus]);
 
   return (
-    <OverlayFocusContext.Provider value={value}>
-      {children}
-    </OverlayFocusContext.Provider>
+    <OverlayFocusActionsContext.Provider value={actionsValue}>
+      <OverlayFocusStateContext.Provider value={stateValue}>
+        {children}
+      </OverlayFocusStateContext.Provider>
+    </OverlayFocusActionsContext.Provider>
   );
 }
 
 export function useOverlayFocusState() {
-  return useContext(OverlayFocusContext);
+  return useContext(OverlayFocusStateContext);
 }
 
 export function useOverlayFocus(id: string, open: boolean) {
-  const { setOverlayFocus } = useOverlayFocusState();
+  const { setOverlayFocus } = useContext(OverlayFocusActionsContext);
 
   useEffect(() => {
     setOverlayFocus(id, open);
