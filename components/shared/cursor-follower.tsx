@@ -2,14 +2,9 @@
 
 import { memo, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import { useOverlayFocusState } from "@/components/shared/overlay-focus-provider";
 
 const CursorFollower = () => {
   const ref = useRef<HTMLDivElement>(null);
-  const { isOverlayFocused } = useOverlayFocusState();
-  // Mantenemos el flag en un ref para no recrear el listener cuando cambia.
-  const overlayRef = useRef(false);
-  overlayRef.current = isOverlayFocused;
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -28,10 +23,6 @@ const CursorFollower = () => {
     };
 
     const onMove = (e: MouseEvent) => {
-      // Cuando hay un modal abierto el cursor custom esta oculto: no
-      // necesitamos repintarlo y asi liberamos main thread (mejora FPS
-      // dentro del modal y elimina la sensacion de cursor lagueado).
-      if (overlayRef.current) return;
       nextX = e.clientX;
       nextY = e.clientY;
       if (!scheduled) {
