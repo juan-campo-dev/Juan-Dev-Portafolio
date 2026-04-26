@@ -1,10 +1,11 @@
 "use client";
 
-import { memo, useEffect, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
-import type { Engine } from "@tsparticles/engine";
+import type { Container, Engine } from "@tsparticles/engine";
 import { MoveDirection } from "@tsparticles/engine";
+import { useOverlayFocusState } from "@/components/shared/overlay-focus-provider";
 
 // Memoizamos las options fuera del componente: la referencia no cambia entre
 // renders, así <Particles> nunca se reinicializa innecesariamente.
@@ -52,6 +53,8 @@ const PARTICLES_STYLE = { position: "absolute", inset: 0 } as const;
 
 function AnimatedBackground() {
   const [inited, setInited] = useState(false);
+  const containerRef = useRef<Container | null>(null);
+  const { isOverlayFocused } = useOverlayFocusState();
 
   useEffect(() => {
     let cancelled = false;
@@ -77,6 +80,16 @@ function AnimatedBackground() {
     };
   }, []);
 
+  // Pausar el motor de tsparticles cuando hay un modal/overlay abierto.
+  // tsparticles internamente corre rAF; al pausarlo liberamos main thread
+  // y eliminamos el lag de cursor + scroll mientras el modal esta abierto.
+  useEffect(() => {
+    const c = containerRef.current;
+    if (!c) return;
+    if (isOverlayFocused) c.pause();
+    else c.play();
+  }, [isOverlayFocused]);
+
   if (!inited) return null;
 
   return (
@@ -85,6 +98,9 @@ function AnimatedBackground() {
         id="tsparticles"
         options={PARTICLES_OPTIONS as never}
         style={PARTICLES_STYLE as React.CSSProperties}
+        particlesLoaded={async (container) => {
+          containerRef.current = container ?? null;
+        }}
       />
     </div>
   );

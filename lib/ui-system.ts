@@ -13,8 +13,11 @@ export const overlaySurface = {
     "overflow-hidden rounded-2xl border border-[#00f0ff]/20 bg-black/85 text-white shadow-2xl backdrop-blur-md",
   header:
     "flex items-center justify-between border-b border-[#00f0ff]/20 bg-gradient-to-r from-[#00f0ff]/10 via-transparent to-[#00f0ff]/10",
+  // section ya esta dentro de un panel con backdrop-blur. Aplicar otro blur
+  // aqui crea una capa extra que multiplica el costo de repintura cuando se
+  // mueve el cursor sobre el modal. Lo dejamos solo con bg solido translucido.
   section:
-    "rounded-lg border border-[#00f0ff]/20 bg-black/40 backdrop-blur-sm",
+    "rounded-lg border border-[#00f0ff]/20 bg-black/40",
   mediaFrame:
     "rounded-lg border border-[#00f0ff]/10 bg-black/80 shadow-md",
   closeButton:

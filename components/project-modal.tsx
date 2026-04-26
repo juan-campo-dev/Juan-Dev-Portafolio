@@ -103,7 +103,10 @@ const ProjectModal: React.FC<ProjectModalProps> = React.memo(
             // Conserva look-and-feel actual: tamaño grande, scroll interno,
             // borde neon. El [&>button]:hidden oculta el X automatico del
             // DialogContent porque ya hay un X custom dentro del header.
-            "z-[90] w-[calc(100vw-2rem)] max-w-7xl max-h-[95vh] overflow-y-auto rounded-2xl border-[#00f0ff]/20 bg-black/85 backdrop-blur-md p-0 [&>button]:hidden",
+            // transform-gpu + will-change-transform promueve el panel a una
+            // capa de composición propia: el blur del backdrop se cachea y
+            // deja de repintarse en cada movimiento del mouse.
+            "z-[90] w-[calc(100vw-2rem)] max-w-7xl max-h-[95vh] overflow-y-auto rounded-2xl border-[#00f0ff]/20 bg-black/85 backdrop-blur-md p-0 [&>button]:hidden transform-gpu will-change-transform",
           )}
         >
           <DialogTitle className="sr-only">{title}</DialogTitle>
@@ -279,7 +282,7 @@ const ProjectModal: React.FC<ProjectModalProps> = React.memo(
                     {techs.map((icon, idx) => (
                       <div key={idx} className="relative group">
                         <div className="absolute inset-0 bg-[#00f0ff]/20 rounded-lg scale-0 group-hover:scale-110 transition-transform duration-300" />
-                        <div className="relative p-2 md:p-4 bg-black/60 backdrop-blur-sm border border-[#00f0ff]/20 rounded-lg hover:border-[#00f0ff] transition-all duration-300 flex items-center justify-center min-h-[3rem] md:min-h-[4rem]">
+                        <div className="relative p-2 md:p-4 bg-black/60 border border-[#00f0ff]/20 rounded-lg hover:border-[#00f0ff] transition-colors duration-300 flex items-center justify-center min-h-[3rem] md:min-h-[4rem]">
                           <span className="text-lg md:text-2xl">{icon}</span>
                         </div>
                       </div>
